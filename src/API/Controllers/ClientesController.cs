@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Domain.Entities;
 using Domain.Services;
+using Domain.Interfaces.Repositories;
 using Infrastructure.Repositories;
 
 

@@ -7,5 +7,6 @@ namespace Domain.Interfaces.Services
 {
     public interface IClienteService
     {
+        public Task<bool>ValidarCadastro(Cliente cliente);
     }
 }

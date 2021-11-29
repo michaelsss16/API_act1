@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Repositories;
+using Domain.Interfaces.Repositories;
 
 namespace API
 {
