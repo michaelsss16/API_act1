@@ -14,6 +14,9 @@ using Infrastructure.Repositories;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Domain.Services;
+using Application.Interfaces;
+using Application.AppServices;
+
 namespace API
 {
     public class Startup
@@ -32,6 +35,7 @@ namespace API
             services.AddControllers();
             services.AddSingleton<IClienteRepository, ClienteRepository>();
             services.AddSingleton<IClienteService, ClienteService>();
+            services.AddTransient<IClienteAppService, ClienteAppService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });

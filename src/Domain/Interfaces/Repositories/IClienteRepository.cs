@@ -11,6 +11,8 @@ namespace Domain.Interfaces.Repositories
     {
         public Task<IEnumerable<Cliente>> BuscarTodosOsClientes();
 
+        public Task<Cliente> BuscaClientePorCPF(string cpf);
+
         public Task<string> AdicionarCliente(Cliente cliente);
     }
 }

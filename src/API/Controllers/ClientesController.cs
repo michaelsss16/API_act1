@@ -7,8 +7,8 @@ using Domain.Entities;
 using Domain.Services;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
-using Infrastructure.Repositories;
-
+using Application.Interfaces;
+using Application.AppServices;
 
 namespace API.Controllers
 {
@@ -16,31 +16,28 @@ namespace API.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
-        private readonly IClienteRepository _Repository;
-        private readonly IClienteService _Service;
+        private readonly IClienteAppService _Service;
 
-        public ClientesController(IClienteRepository repository, IClienteService service)
+        public ClientesController(IClienteAppService service)
         {
-            _Repository = repository;
             _Service = service;
-        } 
+        }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            return Ok(await _Repository.BuscarTodosOsClientes());
+            return Ok(await _Service.BuscarTodosOsClientes());
         }
 
+        [HttpGet("{cpf}")]
+        public async Task<IActionResult> get(string cpf)
+        {
+            return Ok(await _Service.BuscarClientePorCPF(cpf));
+        }
         [HttpPost]
         public async Task<IActionResult> post(Cliente request)
         {
-            if (!(await _Service.ValidarCPF(request))) {
-                return Ok("O CPF informado não é válido.");
-            }
-            if (await _Service.ValidarCadastro(request)) {
-                return Ok("Já existe entrada com esse valor");
-            }
-            var Resultado = await Task.Run(() => _Repository.AdicionarCliente(request));
+            var Resultado = await _Service.ValidarEAdicionarCliente(request);
             return Ok(Resultado);
         }
     }

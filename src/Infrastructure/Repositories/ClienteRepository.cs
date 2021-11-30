@@ -17,7 +17,11 @@ namespace Infrastructure.Repositories
         public async Task<IEnumerable<Cliente>> BuscarTodosOsClientes()
         {
             return await Task.Run(() => ListaClientes.Values.ToList());
+        }
 
+        public async Task<Cliente> BuscaClientePorCPF(string cpf)
+        {
+            return await Task.Run(() => ListaClientes.GetValueOrDefault(cpf));
         }
 
         public async Task<string> AdicionarCliente(Cliente cliente)
