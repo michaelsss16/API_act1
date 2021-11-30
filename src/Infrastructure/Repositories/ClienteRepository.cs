@@ -10,7 +10,7 @@ namespace Infrastructure.Repositories
 {
     public class ClienteRepository : IClienteRepository
     {
-        private static Dictionary<long, Cliente> ListaClientes = new Dictionary<long, Cliente>();
+        private static Dictionary<string, Cliente> ListaClientes = new Dictionary<string, Cliente>();
 
         public ClienteRepository() { }
 

@@ -18,8 +18,48 @@ namespace Domain.Services
         }
         
         public async Task<bool>ValidarCadastro(Cliente cliente) {
-            var lista = await _Repository.BuscarTodosOsClientes();
-            return true;
+            var Request = await _Repository.BuscarTodosOsClientes();
+            var Lista = Enumerable.ToList(Request);
+            var Result1 = Lista.Exists(C=> C.CPF == cliente.CPF);
+            var Result2 = Lista.Exists(C=> C.Email== cliente.Email);
+            return (Result1||Result2);
         }
-    }
+
+			public async Task<bool>ValidarCPF(Cliente cliente)
+			{
+			string cpf = cliente.CPF;
+			int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+				int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+				string tempCpf;
+				string digito;
+				int soma;
+				int resto;
+				cpf = cpf.Trim();
+				cpf = cpf.Replace(".", "").Replace("-", "");
+				if (cpf.Length != 11)
+					return false;
+				tempCpf = cpf.Substring(0, 9);
+				soma = 0;
+
+				for (int i = 0; i < 9; i++)
+					soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+				resto = soma % 11;
+				if (resto < 2)
+					resto = 0;
+				else
+					resto = 11 - resto;
+				digito = resto.ToString();
+				tempCpf = tempCpf + digito;
+				soma = 0;
+				for (int i = 0; i < 10; i++)
+					soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+				resto = soma % 11;
+				if (resto < 2)
+					resto = 0;
+				else
+					resto = 11 - resto;
+				digito = digito + resto.ToString();
+				return cpf.EndsWith(digito);
+			}
+		}
 }
