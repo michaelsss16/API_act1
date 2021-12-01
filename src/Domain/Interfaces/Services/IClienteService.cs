@@ -9,6 +9,14 @@ namespace Domain.Interfaces.Services
     {
         public Task<bool> ValidarCadastro(Cliente cliente);
 
-        public Task<bool> ValidarCPF(Cliente cliente);
+        public bool ValidarCPF(Cliente cliente);
+
+        public Task ValidarTodasAsRegras(Cliente cliente);
+
+        public Task<string> CadastrarCliente(Cliente cliente);
+
+        public Task<Cliente> BuscarClientePorCPF(string cpf);
+
+        public Task<IEnumerable<Cliente>> BuscarTodosOsClientes();
     }
 }

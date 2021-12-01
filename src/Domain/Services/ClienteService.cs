@@ -27,7 +27,7 @@ namespace Domain.Services
             return (Result1 || Result2);
         }
 
-        public async Task<bool> ValidarCPF(Cliente cliente)
+        public bool ValidarCPF(Cliente cliente)
         {
             string cpf = cliente.CPF;
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -63,5 +63,39 @@ namespace Domain.Services
             digito = digito + resto.ToString();
             return cpf.EndsWith(digito);
         }
+
+        public async Task ValidarTodasAsRegras(Cliente cliente)
+        {
+            cliente.CPF = cliente.CPF.Trim();
+            cliente.CPF = cliente.CPF.Replace(".", "").Replace("-", "");
+            if (!(ValidarCPF(cliente)))
+            {
+                throw new InvalidOperationException("O CPF informado não é válido");
+            }
+            if (await ValidarCadastro(cliente))
+            {
+                throw new InvalidOperationException("Já existe cadastro com mesmo CPF ou Email");
+            }
+        }// fim do método validar todas as regras
+
+        public async Task<string> CadastrarCliente(Cliente cliente)
+        {
+            cliente.CPF = cliente.CPF.Trim();
+            cliente.CPF = cliente.CPF.Replace(".", "").Replace("-", "");
+            return await _Repository.AdicionarCliente(cliente);
+        }
+
+        public async Task<IEnumerable<Cliente>> BuscarTodosOsClientes()
+        {
+            return await _Repository.BuscarTodosOsClientes();
+        }
+
+        public async Task<Cliente> BuscarClientePorCPF(string cpf)
+        {
+            cpf = cpf.Trim();
+            cpf = cpf.Replace(".", "").Replace("-", "");
+            return await _Repository.BuscaClientePorCPF(cpf);
+        }
+
     }
 }

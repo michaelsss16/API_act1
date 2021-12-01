@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Services;
 using Domain.Interfaces.Services;
-using Domain.Interfaces.Repositories;
-using Infrastructure.Repositories;
 using Application.Interfaces;
 
 namespace Application.AppServices
@@ -15,40 +13,33 @@ namespace Application.AppServices
     public class ClienteAppService : IClienteAppService
     {
         private readonly IClienteService _Service;
-        private readonly IClienteRepository _Repository;
 
-        public ClienteAppService(IClienteService service, IClienteRepository repository)
+        public ClienteAppService(IClienteService service)
         {
             _Service = service;
-            _Repository = repository;
         }
 
         public async Task<string> ValidarEAdicionarCliente(Cliente request)
         {
-            request.CPF = request.CPF.Trim();
-            request.CPF = request.CPF.Replace(".", "").Replace("-", "");
-
-            if (!(await _Service.ValidarCPF(request)))
+            try
             {
-                return "O CPF informado não é válido.";
+                await _Service.ValidarTodasAsRegras(request);
             }
-            if (await _Service.ValidarCadastro(request))
+            catch (Exception E)
             {
-                return "Já existe cadastro com mesmo CPF ou Email.";
+                return E.Message;
             }
-            var Resultado = await Task.Run(() => _Repository.AdicionarCliente(request));
-            return "Cliente adicionado com sucesso!";
+            return await _Service.CadastrarCliente(request);
         }
+
         public async Task<IEnumerable<Cliente>> BuscarTodosOsClientes()
         {
-            return await _Repository.BuscarTodosOsClientes();
+            return await _Service.BuscarTodosOsClientes();
         }
 
         public async Task<Cliente> BuscarClientePorCPF(string cpf)
         {
-            cpf = cpf.Trim();
-            cpf = cpf.Replace(".", "").Replace("-", "");
-            return await _Repository.BuscaClientePorCPF(cpf);
+            return await _Service.BuscarClientePorCPF(cpf);
         }
     }
 }
