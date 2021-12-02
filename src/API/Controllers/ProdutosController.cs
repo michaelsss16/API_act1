@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
-using Domain.Entities;
+using Domain.DTO;
 using Application.Interfaces;
-
+    
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -17,9 +18,19 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<string> get()
+        public async Task<IActionResult> get()
         {
-            return "Este é o primeiro teste de retorno";
+            return Ok(await _Service.BuscarTodosOsProdutos());
+        }
+
+        [HttpGet("{ID}")]
+        public async Task<IActionResult> Get(Guid id) {
+            return Ok(await _Service.BuscarProdutoPorId(id));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post(ProdutoDTO produto) {
+            return Ok(await _Service.AdicionarProduto(produto));
         }
     }
 }
