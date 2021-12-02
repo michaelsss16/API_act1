@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Domain.DTO;
 using Application.Interfaces;
-    
+
 namespace API.Controllers
 {
     [Route("api/[controller]")]
@@ -24,12 +24,14 @@ namespace API.Controllers
         }
 
         [HttpGet("{ID}")]
-        public async Task<IActionResult> Get(Guid id) {
+        public async Task<IActionResult> Get(Guid id)
+        {
             return Ok(await _Service.BuscarProdutoPorId(id));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ProdutoDTO produto) {
+        public async Task<IActionResult> Post(ProdutoDTO produto)
+        {
             return Ok(await _Service.AdicionarProduto(produto));
         }
     }

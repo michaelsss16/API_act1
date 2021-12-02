@@ -31,22 +31,24 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-// Controladores 
+            // Controladores 
             services.AddControllers();
 
             //  Serviços de aplicativo
             services.AddTransient<IClienteAppService, ClienteAppService>();
             services.AddTransient<IProdutoAppService, ProdutoAppService>();
+            services.AddTransient<IVendaAppService, VendaAppService>();
 
             // Serviços 
             services.AddSingleton<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
+            services.AddTransient<IVendaService, VendaService>();
 
             // Repositórios
             services.AddSingleton<IClienteRepository, ClienteRepository>();
             services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+            services.AddSingleton<IVendaRepository, VendaRepository>();
 
-            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
