@@ -48,8 +48,8 @@ namespace Application.AppServices
             for (int i = 0; i < QuantidadeDeItens; i++)
             {
                 Produto produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado"); }
-                if (vendadto.Quantidades[i] > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível"); }
+                if (produto == null) { throw new Exception("Não existe produto com o id informado:"+ vendadto.Guids[i].ToString()); }
+                if (vendadto.Quantidades[i] > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto "+ vendadto.Guids[i].ToString()); }
             }
         }
 
