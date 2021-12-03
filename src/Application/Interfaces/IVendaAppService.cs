@@ -23,6 +23,6 @@ public         Task ValidarVenda(VendaDTO vendadto);
 
         public Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf);
 
-
+        public Task<double> CalcularValorDaVenda(VendaDTO vendadto);
     }
 }

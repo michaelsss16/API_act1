@@ -28,9 +28,9 @@ namespace Domain.Services
             return await _Repository.Get(id);
         }
 
-        public async Task<string> AdicionarVenda(VendaDTO vendadto)
+        public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor)
         {
-            var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid() };
+            var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid() , Valor = valor};
             return await _Repository.Add(venda);
         }
 
@@ -42,7 +42,7 @@ namespace Domain.Services
             {
                 if (venda.CPF == cpf) { Result.Add(venda); }
             });
-
+            if (Result==null) { throw new Exception("Não existem informações de venda para o CPF informado"); }
             return Result;
         }
     }

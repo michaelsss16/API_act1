@@ -38,7 +38,22 @@ namespace Application.AppServices
             try { await ValidarVenda(vendadto); }
             catch (Exception E) { return E.Message; }
             await AtualizarQuantidadeDeProdutos(vendadto);
-            return await _ServiceVenda.AdicionarVenda(vendadto);
+            var valor = await CalcularValorDaVenda(vendadto);
+            return await _ServiceVenda.AdicionarVenda(vendadto, valor);
+        }
+
+        public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
+        {
+            double valor = 0;
+            int QuantidadeDeProdutos = vendadto.Guids.Count();
+            for (int i = 0; i < QuantidadeDeProdutos; i++)
+            {
+                int quant = vendadto.Quantidades[i];
+                var produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
+                double val = produto.Valor;
+                valor += (quant + val);
+            }
+            return valor;
         }
 
         public async Task ValidarVenda(VendaDTO vendadto)
@@ -48,8 +63,8 @@ namespace Application.AppServices
             for (int i = 0; i < QuantidadeDeItens; i++)
             {
                 Produto produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado:"+ vendadto.Guids[i].ToString()); }
-                if (vendadto.Quantidades[i] > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto "+ vendadto.Guids[i].ToString()); }
+                if (produto == null) { throw new Exception("Não existe produto com o id informado:" + vendadto.Guids[i].ToString()); }
+                if (vendadto.Quantidades[i] > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto " + vendadto.Guids[i].ToString()); }
             }
         }
 
@@ -65,7 +80,8 @@ namespace Application.AppServices
         }
         public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
         {
-            return await _ServiceVenda.BuscarVendasPorCPF(cpf);
+            var Result = await _ServiceVenda.BuscarVendasPorCPF(cpf);
+            return Result;
         }
 
 

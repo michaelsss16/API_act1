@@ -30,6 +30,13 @@ namespace API.Controllers
             return Ok(await _Service.BuscarVendaPorId(id));
         }
 
+        [Route("cpf/{Cpf}")]
+        [HttpGet]
+        public async Task<IActionResult> GetCpf(string Cpf) {
+            var Result = await _Service.BuscarVendasPorCPF( Cpf);
+            return Ok(Result);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(VendaDTO vendadto)
         {
