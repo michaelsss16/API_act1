@@ -61,9 +61,13 @@ namespace Application.AppServices
                 Produto produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
                 produto.Quantidade -= vendadto.Quantidades[i];
             }
-
             return "Quantidades atualizadas com sucesso";
         }
+        public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
+        {
+            return await _ServiceVenda.BuscarVendasPorCPF(cpf);
+        }
+
 
     }
 }

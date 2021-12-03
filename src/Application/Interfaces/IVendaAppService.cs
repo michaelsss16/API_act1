@@ -21,6 +21,8 @@ public         Task ValidarVenda(VendaDTO vendadto);
 
         public Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto);
 
+        public Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf);
 
-        }
+
+    }
 }

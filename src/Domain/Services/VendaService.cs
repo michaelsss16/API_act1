@@ -28,9 +28,22 @@ namespace Domain.Services
             return await _Repository.Get(id);
         }
 
-        public async Task<string> AdicionarVenda(VendaDTO vendadto) {
-            var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid()};
+        public async Task<string> AdicionarVenda(VendaDTO vendadto)
+        {
+            var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid() };
             return await _Repository.Add(venda);
+        }
+
+        public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
+        {
+            var ListaVendas = await _Repository.Get();
+            List<Venda> Result = new List<Venda>();
+            ListaVendas.ToList().ForEach(delegate (Venda venda)
+            {
+                if (venda.CPF == cpf) { Result.Add(venda); }
+            });
+
+            return Result;
         }
     }
 }
