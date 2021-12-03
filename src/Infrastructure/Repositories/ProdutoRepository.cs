@@ -27,5 +27,12 @@ namespace Infrastructure.Repositories
             await Task.Run(() => ListaProdutos.Add(produto.Id, produto));
             return "Produto adicionado com sucesso!";
         }
+
+        public async Task<string> Update(Produto produto)
+        {
+            await Task.Run(()=>ListaProdutos.Remove(produto.Id));
+            await Task.Run(()=>ListaProdutos.Add(produto.Id, produto));
+            return "Produto atualizado com sucesso";
+        }
     }
 }

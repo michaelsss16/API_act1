@@ -16,5 +16,11 @@ namespace Application.Interfaces
         public Task<Venda> BuscarVendaPorId(Guid id);
 
         public Task<string> AdicionarVenda(VendaDTO vendadto);
-    }
+
+public         Task ValidarVenda(VendaDTO vendadto);
+
+        public Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto);
+
+
+        }
 }

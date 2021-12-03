@@ -35,5 +35,9 @@ namespace Domain.Services
             return await _Repository.Add(produto);
         }
 
+        public async Task<string> AtualizarProduto(Produto produto) {
+            return await _Repository.Update(produto);
+        }
+
     }
 }

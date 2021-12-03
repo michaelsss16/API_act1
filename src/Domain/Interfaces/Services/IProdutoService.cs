@@ -15,5 +15,7 @@ namespace Domain.Interfaces.Services
         public Task<Produto> BuscarProdutoPorId(Guid guid);
 
         public Task<string> AdicionarProduto(ProdutoDTO produto);
+
+        public Task<string> AtualizarProduto(Produto produto);
     }
 }

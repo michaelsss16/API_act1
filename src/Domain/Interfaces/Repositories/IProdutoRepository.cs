@@ -14,5 +14,7 @@ namespace Domain.Interfaces.Repositories
         public Task<Produto> Get(Guid guid);
 
         public Task<string> Add(Produto produto);
+
+        public Task<string> Update(Produto produtoo);
     }
 }

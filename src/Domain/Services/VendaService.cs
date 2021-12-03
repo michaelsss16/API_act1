@@ -32,6 +32,5 @@ namespace Domain.Services
             var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid()};
             return await _Repository.Add(venda);
         }
-
     }
 }

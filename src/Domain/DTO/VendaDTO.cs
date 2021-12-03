@@ -13,6 +13,5 @@ namespace Domain.DTO
         public List<Guid> Guids { get; set; }
 
         public List<int> Quantidades { get; set; }
-
     }
 }
