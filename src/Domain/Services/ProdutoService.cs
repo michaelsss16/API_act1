@@ -29,6 +29,17 @@ namespace Domain.Services
             return await _Repository.Get(guid);
         }
 
+        public async Task<List<Produto>> BuscarListaDeProdutosPorId (List<Guid> listaIds)
+        {
+            var Result = new List<Produto>();
+            foreach (Guid item in listaIds)
+            {
+                Result.Add(await _Repository.Get(item));
+            }
+            return Result;
+        }
+
+
         public async Task<string> AdicionarProduto(ProdutoDTO produtodto)
         {
             Produto produto = new Produto() { Nome = produtodto.Nome, Valor = produtodto.Valor, Descricao = produtodto.Descricao, Quantidade = produtodto.Quantidade, Id = Guid.NewGuid() };

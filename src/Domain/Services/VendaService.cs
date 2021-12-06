@@ -30,7 +30,7 @@ namespace Domain.Services
 
         public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor)
         {
-            var venda = new Venda() { Guids = vendadto.Guids, Quantidades = vendadto.Quantidades, CPF = vendadto.CPF, Id = Guid.NewGuid() , Valor = valor};
+            var venda = new Venda() {  ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid() , Valor = valor};
             return await _Repository.Add(venda);
         }
 

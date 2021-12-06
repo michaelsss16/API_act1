@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.DTO;
 
 namespace Domain.Entities
 {
@@ -12,9 +13,7 @@ namespace Domain.Entities
 
         public string CPF { get; set; }
 
-        public List<Guid> Guids { get; set; }
-
-        public List<int> Quantidades { get; set; }
+        public List<ProdutoVendaDTO> ListaProdutos { get; set; }
 
         public double Valor { set; get; }
     }

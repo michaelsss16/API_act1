@@ -10,8 +10,6 @@ namespace Domain.DTO
     {
         public string CPF { get; set; }
 
-        public List<Guid> Guids { get; set; }
-
-        public List<int> Quantidades { get; set; }
+        public List<ProdutoVendaDTO> ListaProdutos { get; set; }
     }
 }

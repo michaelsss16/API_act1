@@ -51,36 +51,34 @@ namespace Application.AppServices
         public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
         {
             double valor = 0;
-            int QuantidadeDeProdutos = vendadto.Guids.Count();
-            for (int i = 0; i < QuantidadeDeProdutos; i++)
+
+            foreach (ProdutoVendaDTO produto in vendadto.ListaProdutos)
             {
-                int quant = vendadto.Quantidades[i];
-                var produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
-                double val = produto.Valor;
-                valor += (quant * val);
+                var produtoCompleto = await _ServiceProduto.BuscarProdutoPorId(produto.Id);
+                valor += (produto.Quantidade * produtoCompleto.Valor);
             }
             return valor;
         }
 
         public async Task ValidarVenda(VendaDTO vendadto)
         {
-            int QuantidadeDeItens = vendadto.Guids.Count();
             if (await _ServiceCliente.BuscarClientePorCPF(vendadto.CPF) == null) { throw new Exception("Cliente não cadastrado"); }
-            for (int i = 0; i < QuantidadeDeItens; i++)
+
+            foreach (ProdutoVendaDTO item in vendadto.ListaProdutos)
             {
-                Produto produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado:" + vendadto.Guids[i].ToString()); }
-                if (vendadto.Quantidades[i] > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto " + vendadto.Guids[i].ToString()); }
+                var produto = await _ServiceProduto.BuscarProdutoPorId(item.Id);
+                if (produto == null) { throw new Exception("Não existe produto com o id informado:" + item.Id.ToString()); }
+                if (item.Quantidade > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto " + item.Id.ToString()); }
             }
         }
 
         public async Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto)
         {
-            int QuantidadeDeItens = vendadto.Guids.Count();
-            for (int i = 0; i < QuantidadeDeItens; i++)
+            foreach (ProdutoVendaDTO item in vendadto.ListaProdutos)
             {
-                Produto produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
-                produto.Quantidade -= vendadto.Quantidades[i];
+                var produto = await _ServiceProduto.BuscarProdutoPorId(item.Id);
+                produto.Quantidade -= item.Quantidade;
+                await _ServiceProduto.AtualizarProduto(produto);
             }
             return "Quantidades atualizadas com sucesso";
         }

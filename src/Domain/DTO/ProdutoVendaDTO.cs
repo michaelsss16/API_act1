@@ -11,7 +11,5 @@ namespace Domain.DTO
         public Guid  Id {   set; get;}
 
             public int Quantidade { get; set; }
-
-        public double Valor { get; set; }
     }
 }
