@@ -8,7 +8,6 @@ using Domain.Entities;
 using Domain.DTO;
 using Domain.Interfaces.Services;
 
-
 namespace Application.AppServices
 {
     public class VendaAppService : IVendaAppService
@@ -23,6 +22,7 @@ namespace Application.AppServices
             _ServiceProduto = servicep;
             _ServiceCliente = servicec;
         }
+
         public async Task<IEnumerable<Venda>> BuscarTodasAsVendas()
         {
             return await _ServiceVenda.BuscarTodasAsVendas();
@@ -36,7 +36,7 @@ namespace Application.AppServices
         public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
         {
             var Result = await _ServiceVenda.BuscarVendasPorCPF(cpf);
-        return Result;
+            return Result;
         }
 
         public async Task<string> AdicionarVenda(VendaDTO vendadto)
