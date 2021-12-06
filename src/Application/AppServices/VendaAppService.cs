@@ -33,6 +33,12 @@ namespace Application.AppServices
             return await _ServiceVenda.BuscarVendaPorId(id);
         }
 
+        public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
+        {
+            var Result = await _ServiceVenda.BuscarVendasPorCPF(cpf);
+        return Result;
+        }
+
         public async Task<string> AdicionarVenda(VendaDTO vendadto)
         {
             try { await ValidarVenda(vendadto); }
@@ -51,7 +57,7 @@ namespace Application.AppServices
                 int quant = vendadto.Quantidades[i];
                 var produto = await _ServiceProduto.BuscarProdutoPorId(vendadto.Guids[i]);
                 double val = produto.Valor;
-                valor += (quant + val);
+                valor += (quant * val);
             }
             return valor;
         }
@@ -77,11 +83,6 @@ namespace Application.AppServices
                 produto.Quantidade -= vendadto.Quantidades[i];
             }
             return "Quantidades atualizadas com sucesso";
-        }
-        public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
-        {
-            var Result = await _ServiceVenda.BuscarVendasPorCPF(cpf);
-            return Result;
         }
 
 
