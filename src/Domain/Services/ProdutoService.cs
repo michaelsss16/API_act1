@@ -29,7 +29,7 @@ namespace Domain.Services
             return await _Repository.Get(guid);
         }
 
-        public async Task<List<Produto>> BuscarListaDeProdutosPorId (List<Guid> listaIds)
+        public async Task<List<Produto>> BuscarListaDeProdutosPorId(List<Guid> listaIds)
         {
             var Result = new List<Produto>();
             foreach (Guid item in listaIds)
@@ -53,13 +53,25 @@ namespace Domain.Services
 
         public async Task ValidarVenda(List<ProdutoVendaDTO> produtos)
         {
-            foreach (ProdutoVendaDTO item in produtos) 
+            foreach (ProdutoVendaDTO item in produtos)
             {
                 var produto = await BuscarProdutoPorId(item.Id);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado: "+ item.Id.ToString()); }
-                if (item.Quantidade > produto.Quantidade) { throw new Exception("Não existe quantidade suficiente de produtos no estoque para o id: "+ item.Id.ToString()); }
+                if (produto == null) { throw new Exception("Não existe produto com o id informado: " + item.Id.ToString()); }
+                if (item.Quantidade > produto.Quantidade) { throw new Exception("Não existe quantidade suficiente de produtos no estoque para o id: " + item.Id.ToString()); }
             }
         }
+
+        public async Task<string> AtualizarListaDeProdutos(List<ProdutoVendaDTO> produtos)
+        {
+            foreach (ProdutoVendaDTO item in produtos)
+            {
+                var produto = await BuscarProdutoPorId(item.Id);
+                produto.Quantidade -= item.Quantidade;
+                await AtualizarProduto(produto);
+            }
+            return "Produtos atualizados com sucesso";
+        }
+
 
     }
 }

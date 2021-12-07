@@ -50,26 +50,21 @@ namespace Application.AppServices
 
         public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
         {
-            var ListaIds = vendadto.ListaProdutos.Select(produto=> produto.Id).ToList();
+            var ListaIds = vendadto.ListaProdutos.Select(produto => produto.Id).ToList();
             var ListaProdutos = await _ServiceProduto.BuscarListaDeProdutosPorId(ListaIds);
             return _ServiceVenda.CalcularValorDaVenda(vendadto, ListaProdutos);
         }
 
         public async Task ValidarVenda(VendaDTO vendadto)
         {
-            await _ServiceCliente.BuscarClientePorCPF(vendadto.CPF)
+            await _ServiceCliente.BuscarClientePorCPF(vendadto.CPF);
             await _ServiceProduto.ValidarVenda(vendadto.ListaProdutos);
         }
 
         public async Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto)
         {
-            foreach (ProdutoVendaDTO item in vendadto.ListaProdutos)
-            {
-                var produto = await _ServiceProduto.BuscarProdutoPorId(item.Id);
-                produto.Quantidade -= item.Quantidade;
-                await _ServiceProduto.AtualizarProduto(produto);
-            }
-            return "Quantidades atualizadas com sucesso";
+            var Result = await _ServiceProduto.AtualizarListaDeProdutos(vendadto.ListaProdutos);
+            return Result;
         }
 
 
