@@ -94,7 +94,9 @@ namespace Domain.Services
         {
             cpf = cpf.Trim();
             cpf = cpf.Replace(".", "").Replace("-", "");
-            return await _Repository.BuscaClientePorCPF(cpf);
+            var cliente = await _Repository.BuscaClientePorCPF(cpf);
+            if (cliente == null) { throw new Exception("Não existe cliente cadastrado com o CPF informado"); }
+            return cliente;
         }
 
     }

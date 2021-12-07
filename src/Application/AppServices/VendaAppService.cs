@@ -50,26 +50,15 @@ namespace Application.AppServices
 
         public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
         {
-            double valor = 0;
-
-            foreach (ProdutoVendaDTO produto in vendadto.ListaProdutos)
-            {
-                var produtoCompleto = await _ServiceProduto.BuscarProdutoPorId(produto.Id);
-                valor += (produto.Quantidade * produtoCompleto.Valor);
-            }
-            return valor;
+            var ListaIds = vendadto.ListaProdutos.Select(produto=> produto.Id).ToList();
+            var ListaProdutos = await _ServiceProduto.BuscarListaDeProdutosPorId(ListaIds);
+            return _ServiceVenda.CalcularValorDaVenda(vendadto, ListaProdutos);
         }
 
         public async Task ValidarVenda(VendaDTO vendadto)
         {
-            if (await _ServiceCliente.BuscarClientePorCPF(vendadto.CPF) == null) { throw new Exception("Cliente não cadastrado"); }
-
-            foreach (ProdutoVendaDTO item in vendadto.ListaProdutos)
-            {
-                var produto = await _ServiceProduto.BuscarProdutoPorId(item.Id);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado:" + item.Id.ToString()); }
-                if (item.Quantidade > produto.Quantidade) { throw new Exception("Quantidade desejada superior ao disponível do produto " + item.Id.ToString()); }
-            }
+            await _ServiceCliente.BuscarClientePorCPF(vendadto.CPF)
+            await _ServiceProduto.ValidarVenda(vendadto.ListaProdutos);
         }
 
         public async Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto)

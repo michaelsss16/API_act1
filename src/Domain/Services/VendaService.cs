@@ -45,5 +45,15 @@ namespace Domain.Services
             if (Result==null) { throw new Exception("Não existem informações de venda para o CPF informado"); }
             return Result;
         }
+
+        public double  CalcularValorDaVenda(VendaDTO vendadto, List<Produto> produtos)
+        {
+            double ValorTotal = 0;
+            for (int i = 0; i<vendadto.ListaProdutos.Count(); i++) 
+            {
+                ValorTotal += (vendadto.ListaProdutos[i].Quantidade * produtos[i].Valor);
+            }
+            return ValorTotal;
+        }
     }
 }

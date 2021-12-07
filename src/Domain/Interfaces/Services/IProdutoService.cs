@@ -19,5 +19,7 @@ namespace Domain.Interfaces.Services
         public Task<string> AdicionarProduto(ProdutoDTO produto);
 
         public Task<string> AtualizarProduto(Produto produto);
+
+        public Task ValidarVenda(List<ProdutoVendaDTO> produtos);
     }
 }

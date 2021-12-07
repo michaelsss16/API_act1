@@ -18,5 +18,7 @@ namespace Domain.Interfaces.Services
         public Task<string> AdicionarVenda(VendaDTO vendadto, double valor);
 
         public Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf);
+
+        public double CalcularValorDaVenda(VendaDTO vendadto, List<Produto> produtos);
     }
 }
