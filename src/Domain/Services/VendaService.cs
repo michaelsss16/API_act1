@@ -30,7 +30,7 @@ namespace Domain.Services
 
         public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor)
         {
-            var venda = new Venda() {  ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid() , Valor = valor};
+            var venda = new Venda() { ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid(), Valor = valor };
             return await _Repository.Add(venda);
         }
 
@@ -42,14 +42,14 @@ namespace Domain.Services
             {
                 if (venda.CPF == cpf) { Result.Add(venda); }
             });
-            if (Result==null) { throw new Exception("Não existem informações de venda para o CPF informado"); }
+            if (Result == null) { throw new Exception("Não existem informações de venda para o CPF informado"); }
             return Result;
         }
 
-        public double  CalcularValorDaVenda(VendaDTO vendadto, List<Produto> produtos)
+        public double CalcularValorDaVenda(VendaDTO vendadto, List<Produto> produtos)
         {
             double ValorTotal = 0;
-            for (int i = 0; i<vendadto.ListaProdutos.Count(); i++) 
+            for (int i = 0; i < vendadto.ListaProdutos.Count(); i++)
             {
                 ValorTotal += (vendadto.ListaProdutos[i].Quantidade * produtos[i].Valor);
             }
