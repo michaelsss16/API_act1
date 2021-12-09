@@ -8,6 +8,7 @@ using Moq;
 using Domain.Entities;
 using Domain.Services;
 using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Infrastructure.Repositories;
 
 namespace UnitTests.Domain
@@ -122,6 +123,18 @@ namespace UnitTests.Domain
 
             // Assert
             Assert.True(Resultado, "O valor de retorno está falso para entradas corretats de CPF");
+        }
+
+        // Validar todas as regras chama os dois métodos de validação para verificar se o cliente informado para o cadastro é factível
+        [Fact]
+        public void ValidarTodasAsRegras_NaoLancarExcecaoParaValoresCorretos()
+        {
+            // Arrange
+            var cliente = new Cliente();
+            var repository = new Mock<ClienteRepository>();
+        // Act
+        
+        // Assert
         }
 
     }
