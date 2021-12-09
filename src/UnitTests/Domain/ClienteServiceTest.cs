@@ -14,6 +14,8 @@ namespace UnitTests.Domain
 {
     public class ClienteServiceTest
     {
+
+        // O método ValidarCadastro deve retornar true quando já existir um outro cliente no banco com mesmo email ou cpf
         [Fact]
         public async void ValidarCadastro_RetornarFalsoParaAusênciaDeDadosNoRepositorio()
         {
@@ -52,9 +54,9 @@ namespace UnitTests.Domain
         public void ValidarCadastro_RetornaTrueCasoExistaEntidadeComMesmoEmailNoBanco()
         {
             // Arrange
-            Cliente cliente = new Cliente() {Nome = "Michael", CPF="13602151662", Email="michael@.com" };
-            Cliente clienteErrado = new Cliente() {Nome = "Michael", CPF="13602151663", Email="michael@.com" };
-            IEnumerable<Cliente> clientes = new List<Cliente>() {cliente } as IEnumerable<Cliente>;
+            Cliente cliente = new Cliente() { Nome = "Michael", CPF = "13602151662", Email = "michael@.com" };
+            Cliente clienteErrado = new Cliente() { Nome = "Michael", CPF = "13602151663", Email = "michael@.com" };
+            IEnumerable<Cliente> clientes = new List<Cliente>() { cliente } as IEnumerable<Cliente>;
             var repository = new Mock<IClienteRepository>();
             repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(clientes);
             ClienteService service = new ClienteService(repository.Object);
@@ -81,11 +83,46 @@ namespace UnitTests.Domain
             bool resultado = service.ValidarCadastro(clienteErrado).Result;
 
             // Assert
-            Assert.True(resultado, "Mesmo com cliente com mesmo CPF cadastrado o retorno está falso");
+            Assert.True(resultado, "Mesmo com cliente com CPF idêntico cadastrado o retorno está falso");
         }
 
+        // O método  Validar CPF deve retornar positivo para CPFs válidos 
+        [Theory]
+        [InlineData("266.990.198-06")]
+        [InlineData("26699019806")]
+        [InlineData("26699019805*")]
+        [InlineData("266990198053")]
 
+        public void ValidarCpf_DeveRetornarValorFalsoParaEntradasIncorretas(string cpf)
+        {
+            // Arrange
+            Cliente cliente = new Cliente() {CPF = cpf };
+            var repository = new Mock<IClienteRepository>();
+            ClienteService service = new ClienteService(repository.Object);
 
+            // Act
+            bool Resultado = service.ValidarCPF(cliente);
+
+            // Assert
+            Assert.False(Resultado, "O valor de retorno está verdadeiro para entradas incorretasde CPF");
+        }
+
+        [Theory]
+        [InlineData("266.990.198-05")]
+        [InlineData("26699019805")]
+        public void ValidarCPF_DeveRetornarPositivoParaDadosDeEntradaCorretos(string cpf)
+        {
+            // Arrange
+            Cliente cliente = new Cliente() { CPF = cpf };
+            var repository = new Mock<IClienteRepository>();
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            bool Resultado = service.ValidarCPF(cliente);
+
+            // Assert
+            Assert.True(Resultado, "O valor de retorno está falso para entradas corretats de CPF");
+        }
 
     }
 }
