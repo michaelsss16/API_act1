@@ -24,5 +24,19 @@ namespace UnitTests.Domain
             var Result = await service.ValidarCadastro(c);
             Assert.False(Result, "A validação está aceitando clientes nulos como entrada.");
         }
+
+        [Fact]
+        public void ValidarCadastro_retornaTrueParaDadosCorretos() 
+        {
+            Cliente c = new Cliente() {Nome= "Michael", CPF= "13602151662",Email = "michael@.com" };
+            List<Cliente> responseMockList = new List<Cliente>();
+            responseMock.Add(c);
+            IEnumerable<Cliente> responseMock = responseMockList as IEnumerable;
+
+            var repositoryMock = new Mock<ClienteRepository>();
+            repositoryMock.Setup(p=>p.BuscarTodosOsClientes()).Returns(responseMock);
+
+            var service = new ClienteService(repositoryMock.Object);
+        }
     }
 }
