@@ -97,7 +97,7 @@ namespace UnitTests.Domain
         public void ValidarCpf_DeveRetornarValorFalsoParaEntradasIncorretas(string cpf)
         {
             // Arrange
-            Cliente cliente = new Cliente() {CPF = cpf };
+            Cliente cliente = new Cliente() { CPF = cpf };
             var repository = new Mock<IClienteRepository>();
             ClienteService service = new ClienteService(repository.Object);
 
@@ -127,15 +127,96 @@ namespace UnitTests.Domain
 
         // Validar todas as regras chama os dois métodos de validação para verificar se o cliente informado para o cadastro é factível
         [Fact]
-        public void ValidarTodasAsRegras_NaoLancarExcecaoParaValoresCorretos()
+        public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaoDeCPF()
         {
             // Arrange
-            var cliente = new Cliente();
-            var repository = new Mock<ClienteRepository>();
-        // Act
-        
-        // Assert
+            Exception exTeste = null;
+            var cliente = new Cliente() { CPF = "198.408.843-29" };// Final 8 é cpf válido
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p => p.BuscarTodosOsClientes());
+            var service = new ClienteService(repository.Object);
+
+            // Act
+            bool result1 = service.ValidarCadastro(cliente).Result;
+            bool result2 = service.ValidarCPF(cliente);
+            try
+            {
+                await service.ValidarTodasAsRegras(cliente);
+            }
+            catch (Exception ex)
+            {
+                exTeste = ex;
+            }
+
+            // Assert
+            
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(cliente));
+            Assert.NotNull(exTeste);
         }
+        [Fact]
+        public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaodeCadastro()
+        {
+            // Arrange
+            Cliente cliente = new Cliente() {Nome = "Michael", CPF = "198.408.843-28", Email = "michael@.com" };
+            IEnumerable<Cliente> lista = new List<Cliente>() { cliente } as IEnumerable<Cliente>;
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(lista);
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            // Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(cliente));
+        }
+
+        [Fact]
+        public void CadastrarCliente_RetornaMensagemDeSucessoParaClienteCorretoo()
+        {
+            // Arrange
+            Cliente cliente = new Cliente() { CPF = "11111111111" };
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p => p.AdicionarCliente(cliente)).ReturnsAsync("Cliente cadastrado com sucesso");
+            var service = new ClienteService(repository.Object);
+
+            // Act
+            string resultado = service.CadastrarCliente(cliente).Result;
+            // Assert
+            Assert.Equal(resultado, "Cliente cadastrado com sucesso");
+        }
+
+        [Fact]
+        public void BuscarTodosOsClientes_DeveRetornarTodosOsClientesRetornadosPeloBancoCasoNull()
+        {
+            // Arrange
+            IEnumerable<Cliente> listaVazia = new List<Cliente>() as IEnumerable<Cliente>;
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(listaVazia);
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            var resultado = service.BuscarTodosOsClientes().Result;
+
+            // Assert
+            Assert.Equal(listaVazia, resultado);
+        }
+
+        [Fact]
+        public void BuscarTodosOsClientes_DeveRetornarAListaDeClientesNoRepositorio()
+        {
+            // Arrange
+            Cliente c1 = new Cliente() { Nome = "cliente1" };
+            Cliente c2 = new Cliente() { Nome = "cliente2" };
+            IEnumerable<Cliente> lista = new List<Cliente>() { c1, c2 } as IEnumerable<Cliente>;        
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(lista);
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            var resultado = service.BuscarTodosOsClientes().Result;
+
+            // Assert
+            Assert.Equal(lista, resultado);
+        }
+
 
     }
 }
