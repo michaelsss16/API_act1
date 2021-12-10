@@ -217,6 +217,37 @@ namespace UnitTests.Domain
             Assert.Equal(lista, resultado);
         }
 
+        [Theory]
+        [InlineData("198.408.843-28")]
+        [InlineData("19840884328")]
+        public void BuscarClientePorCPF_RetornaOClienteQuandoPossuiRegistroNoBanco(string cpf)
+        {
+            // Arrange
+            string cpfLimpo = cpf.Trim().Replace(".", "").Replace("-", "");
+            Cliente cliente = new Cliente() { Nome = "Michael", CPF = "19840884328", Email = "michael@.com" };
+            var repository = new Mock<IClienteRepository>();
+            repository.Setup(p=> p.BuscaClientePorCPF(cpf)).ReturnsAsync(cliente);
+            repository.Setup(p=> p.BuscaClientePorCPF(cpfLimpo)).ReturnsAsync(cliente);
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            Cliente resultado = service.BuscarClientePorCPF(cpf).Result;
+
+            // Assert
+            Assert.Equal(resultado, cliente);
+        }
+
+        [Fact]
+        public async Task BuscarClientePorCPF_retornoDoRepositorioNuloGerandoExcecao()
+        {
+            // Arrange
+            var repository = new Mock<IClienteRepository>();
+            ClienteService service = new ClienteService(repository.Object);
+
+            // Act
+            // Assert
+            await Assert.ThrowsAsync<Exception>(() => service.BuscarClientePorCPF("11111111111"));
+        }
 
     }
 }
