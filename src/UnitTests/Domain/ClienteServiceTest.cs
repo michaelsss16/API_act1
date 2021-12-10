@@ -149,7 +149,7 @@ namespace UnitTests.Domain
             }
 
             // Assert
-            
+
             await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(cliente));
             Assert.NotNull(exTeste);
         }
@@ -157,7 +157,7 @@ namespace UnitTests.Domain
         public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaodeCadastro()
         {
             // Arrange
-            Cliente cliente = new Cliente() {Nome = "Michael", CPF = "198.408.843-28", Email = "michael@.com" };
+            Cliente cliente = new Cliente() { Nome = "Michael", CPF = "198.408.843-28", Email = "michael@.com" };
             IEnumerable<Cliente> lista = new List<Cliente>() { cliente } as IEnumerable<Cliente>;
             var repository = new Mock<IClienteRepository>();
             repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(lista);
@@ -205,7 +205,7 @@ namespace UnitTests.Domain
             // Arrange
             Cliente c1 = new Cliente() { Nome = "cliente1" };
             Cliente c2 = new Cliente() { Nome = "cliente2" };
-            IEnumerable<Cliente> lista = new List<Cliente>() { c1, c2 } as IEnumerable<Cliente>;        
+            IEnumerable<Cliente> lista = new List<Cliente>() { c1, c2 } as IEnumerable<Cliente>;
             var repository = new Mock<IClienteRepository>();
             repository.Setup(p => p.BuscarTodosOsClientes()).ReturnsAsync(lista);
             ClienteService service = new ClienteService(repository.Object);
@@ -226,8 +226,8 @@ namespace UnitTests.Domain
             string cpfLimpo = cpf.Trim().Replace(".", "").Replace("-", "");
             Cliente cliente = new Cliente() { Nome = "Michael", CPF = "19840884328", Email = "michael@.com" };
             var repository = new Mock<IClienteRepository>();
-            repository.Setup(p=> p.BuscaClientePorCPF(cpf)).ReturnsAsync(cliente);
-            repository.Setup(p=> p.BuscaClientePorCPF(cpfLimpo)).ReturnsAsync(cliente);
+            repository.Setup(p => p.BuscaClientePorCPF(cpf)).ReturnsAsync(cliente);
+            repository.Setup(p => p.BuscaClientePorCPF(cpfLimpo)).ReturnsAsync(cliente);
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
@@ -248,6 +248,5 @@ namespace UnitTests.Domain
             // Assert
             await Assert.ThrowsAsync<Exception>(() => service.BuscarClientePorCPF("11111111111"));
         }
-
     }
 }
