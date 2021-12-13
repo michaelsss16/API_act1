@@ -10,6 +10,7 @@ using Domain.Services;
 using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Infrastructure.Repositories;
+using Domain.DTO;
 
 namespace UnitTests.Domain
 {
@@ -47,5 +48,56 @@ namespace UnitTests.Domain
             Assert.Equal(Resultado, Lista);
         }
 
+        [Fact]
+        public void BuscarProdutoPorId_TesteComRetornoPreenchidoEComCorrespondencia()
+        {
+            Guid id = Guid.NewGuid();
+            Produto produto = new Produto() { Id = id, Nome = "ProdutoTeste", Quantidade = 2, Valor = 12345, Descricao = "Produto de teste" };
+            var repository = new Mock<IProdutoRepository>();
+            repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
+            ProdutoService service = new ProdutoService(repository.Object);
+            var Resultado = service.BuscarProdutoPorId(id).Result;
+            Assert.Equal(Resultado, produto);
+            Assert.Equal(Resultado.Id, id);
+        }
+
+        [Fact]
+        public void BuscarListaDeProdutos_RetornaAListaDosProdutosCorrespondentesAListaPassada()
+        {
+            Guid id1 = Guid.NewGuid();
+            Guid id2 = Guid.NewGuid();
+            Produto p1 = new Produto() {Id = id1 };
+            Produto p2= new Produto() {Id = id2 };
+            List<Guid> lista = new List<Guid>() {id1, id2 };
+            IEnumerable<Produto> listaProdutos = new List<Produto>() { p1, p2 } as IEnumerable<Produto>;
+            var repository = new Mock<IProdutoRepository>();
+            repository.Setup(p => p.Get(id1)).ReturnsAsync(p1);
+            repository.Setup(p => p.Get(id2)).ReturnsAsync(p2);
+            ProdutoService service = new ProdutoService(repository.Object);
+            var Resultado = service.BuscarListaDeProdutosPorId(lista).Result;
+            Assert.Equal(Resultado, listaProdutos);
+        }
+
+        [Fact]
+        public void BuscarListaDeProdutos_PassagemDeListaVazia()
+        {
+            List<Guid> lista = new List<Guid>() ;
+            var repository = new Mock<IProdutoRepository>();
+            ProdutoService service = new ProdutoService(repository.Object);
+            var Resultado = service.BuscarListaDeProdutosPorId(lista).Result;
+            Assert.Equal(Resultado, new List<Produto>());
+        }
+
+        [Fact]
+        public void AdicionarProduto_DeveRetornarAMensagemDeRetornoCorreta()
+        {
+            ProdutoDTO produtodto = new ProdutoDTO();
+            Produto produto = new Produto();
+            var repository = new Mock<IProdutoRepository>();
+            repository.Setup(p => p.Add(produto)).ReturnsAsync("Produto adicionado com sucesso");
+            ProdutoService service = new ProdutoService(repository.Object);
+            string Resultado = service.AdicionarProduto(produtodto).Result;
+            Assert.Equal(Resultado, "Produto adicionado com sucesso");
+        }
     } // Fim da classe
 }
