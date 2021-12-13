@@ -149,7 +149,6 @@ namespace UnitTests.Domain
             }
 
             // Assert
-
             await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(cliente));
             Assert.NotNull(exTeste);
         }
