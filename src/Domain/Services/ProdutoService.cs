@@ -70,7 +70,5 @@ public async Task<string> AdicionarProduto(ProdutoDTO produtodto)
             }
             return "Produtos atualizados com sucesso";
         }
-
-
     }
 }

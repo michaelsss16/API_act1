@@ -1,3 +1,8 @@
+# Tarefas
+Conseguir gerar o html contendo as informações de cobertura de teste
+Adicionar os comentários de divisão de partes dos testes unitários para o produto service test
+adicionar mensagens de retorno para erro dos testes unitários de todos os arquivos de teste
+
 # API_act
 Descrição da atividade ppara ser executada:
 Este exercício consiste em criar uma pequena API capaz de vender produtos a um cliente. 

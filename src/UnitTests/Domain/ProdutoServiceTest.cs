@@ -127,9 +127,9 @@ namespace UnitTests.Domain
         {
             Exception ex = null;
             Guid id = Guid.NewGuid();
-            Produto produto = new Produto() {Id = id, Quantidade=3,  };
-            ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = id, Quantidade = 2};
-            var lista = new List<ProdutoVendaDTO>() { venda};
+            Produto produto = new Produto() { Id = id, Quantidade = 3, };
+            ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = id, Quantidade = 2 };
+            var lista = new List<ProdutoVendaDTO>() { venda };
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
             ProdutoService service = new ProdutoService(repository.Object);
@@ -163,6 +163,32 @@ namespace UnitTests.Domain
             ProdutoService service = new ProdutoService(repository.Object);
             await Assert.ThrowsAsync<Exception>(() => service.ValidarVenda(lista));
         }
+
+        [Fact]
+        public void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaVazia()
+        {
+            var lista = new List<ProdutoVendaDTO>();
+            var repository = new Mock<IProdutoRepository>();
+            var service = new ProdutoService(repository.Object);
+            string resultado = service.AtualizarListaDeProdutos(lista).Result;
+            Assert.Equal(resultado, "Produtos atualizados com sucesso");
+        }
+
+        [Fact]
+        public void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaComProdutos()
+        {
+            var id1 = Guid.NewGuid();
+            var produto = new Produto() { Id = id1, Quantidade = 2 };
+            var lista = new List<ProdutoVendaDTO>();
+            lista.Add(new ProdutoVendaDTO() { Quantidade = 1, Id = id1 });
+            var repository = new Mock<IProdutoRepository>();
+            repository.Setup(p => p.Get(id1)).ReturnsAsync(produto);
+            repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
+            var service = new ProdutoService(repository.Object);
+            string resultado = service.AtualizarListaDeProdutos(lista).Result;
+            Assert.Equal(resultado, "Produtos atualizados com sucesso");
+        }
+
 
     } // Fim da classe
 }
