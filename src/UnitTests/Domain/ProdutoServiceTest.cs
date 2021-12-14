@@ -97,7 +97,7 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Add(It.IsAny<Produto>())).ReturnsAsync("Produto adicionado com sucesso");
             ProdutoService service = new ProdutoService(repository.Object);
             string Resultado = service.AdicionarProduto(produtodto).Result;
-            Assert.Equal(Resultado, "Produto adicionado com sucesso");
+            Assert.Equal("Produto adicionado com sucesso", Resultado);
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
             ProdutoService service = new ProdutoService(repository.Object);
             string Resultado = service.AtualizarProduto(produto).Result;
-            Assert.Equal(Resultado, "Produto atualizado com sucesso");
+            Assert.Equal("Produto atualizado com sucesso", Resultado);
         }
         [Fact]
         public void ValidarVenda_PassagemDeListaVazia()
@@ -171,7 +171,7 @@ namespace UnitTests.Domain
             var repository = new Mock<IProdutoRepository>();
             var service = new ProdutoService(repository.Object);
             string resultado = service.AtualizarListaDeProdutos(lista).Result;
-            Assert.Equal(resultado, "Produtos atualizados com sucesso");
+            Assert.Equal("Produtos atualizados com sucesso", resultado );
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
             var service = new ProdutoService(repository.Object);
             string resultado = service.AtualizarListaDeProdutos(lista).Result;
-            Assert.Equal(resultado, "Produtos atualizados com sucesso");
+            Assert.Equal("Produtos atualizados com sucesso", resultado );
         }
 
 

@@ -42,7 +42,7 @@ namespace Domain.Services
             {
                 if (venda.CPF == cpf) { Result.Add(venda); }
             });
-            if (Result == null) { throw new Exception("Não existem informações de venda para o CPF informado"); }
+            if (Result.Count() == 0) { throw new Exception("Não existem informações de venda para o CPF informado"); }
             return Result;
         }
 
