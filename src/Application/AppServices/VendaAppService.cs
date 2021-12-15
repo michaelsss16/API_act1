@@ -66,7 +66,5 @@ namespace Application.AppServices
             var Result = await _ServiceProduto.AtualizarListaDeProdutos(vendadto.ListaProdutos);
             return Result;
         }
-
-
     }
 }

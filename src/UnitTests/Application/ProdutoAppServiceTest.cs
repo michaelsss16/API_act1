@@ -39,16 +39,16 @@ namespace UnitTests.Application
             Assert.Equal(produto, resultado);
         }
 
-[Fact]
-    public void AdicionarProduto_RetornaMensagemPositivaParaAdicao()
-    {
-        var produtodto = new ProdutoDTO();
-        var service = new Mock<IProdutoService>();
-        service.Setup(p => p.AdicionarProduto(produtodto)).ReturnsAsync("Produto adicionado com sucesso");
-        var appService = new ProdutoAppService(service.Object);
-        var resultado = appService.AdicionarProduto(produtodto).Result;
-        Assert.NotNull(resultado);
-        Assert.Equal("Produto adicionado com sucesso", resultado);
-    }
-}// fim da classe
+        [Fact]
+        public void AdicionarProduto_RetornaMensagemPositivaParaAdicao()
+        {
+            var produtodto = new ProdutoDTO();
+            var service = new Mock<IProdutoService>();
+            service.Setup(p => p.AdicionarProduto(produtodto)).ReturnsAsync("Produto adicionado com sucesso");
+            var appService = new ProdutoAppService(service.Object);
+            var resultado = appService.AdicionarProduto(produtodto).Result;
+            Assert.NotNull(resultado);
+            Assert.Equal("Produto adicionado com sucesso", resultado);
+        }
+    }// fim da classe
 }
