@@ -92,6 +92,33 @@ namespace UnitTests.Domain
         }
 
         [Fact]
+        public void CalcularValorDaVenda_DeveRetornarZeroParaListaVaziaDeProdutos()
+        {
+            var vendadto = new VendaDTO();
+            vendadto.ListaProdutos = new List<ProdutoVendaDTO>();
+            var lista = new List<Produto>();
+            var repository = new Mock<IVendaRepository>();
+            var service = new VendaService(repository.Object);
+            var resultado = service.CalcularValorDaVenda(vendadto, lista);
+            Assert.Equal(0, resultado);
+        }
+
+        [Fact]
+        public void CalcularValorDaVenda_DeveRetornarOValorCorretoParaOsProdutos()
+        {
+            var vendadto = new VendaDTO();
+            vendadto.ListaProdutos = new List<ProdutoVendaDTO>();
+            vendadto.ListaProdutos.Add(new ProdutoVendaDTO() { Quantidade = 2 });
+            vendadto.ListaProdutos.Add(new ProdutoVendaDTO() { Quantidade = 3 });
+            var lista = new List<Produto>();
+            lista.Add(new Produto() { Valor = 10 });
+            lista.Add(new Produto() { Valor = 5 });
+            var repository = new Mock<IVendaRepository>();
+            var service = new VendaService(repository.Object);
+            var resultado = service.CalcularValorDaVenda(vendadto, lista);
+            Assert.Equal(35, resultado);
+        }
+
 
     } // Fim da classe
 }
