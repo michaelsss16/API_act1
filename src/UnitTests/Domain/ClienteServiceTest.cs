@@ -179,7 +179,7 @@ namespace UnitTests.Domain
             // Act
             string resultado = service.CadastrarCliente(cliente).Result;
             // Assert
-            Assert.Equal(resultado, "Cliente cadastrado com sucesso");
+            Assert.Equal("Cliente cadastrado com sucesso", resultado);
         }
 
         [Fact]
