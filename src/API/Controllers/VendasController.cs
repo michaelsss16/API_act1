@@ -32,8 +32,9 @@ namespace API.Controllers
 
         [Route("cpf/{Cpf}")]
         [HttpGet]
-        public async Task<IActionResult> GetCpf(string Cpf) {
-            var Result = await _Service.BuscarVendasPorCPF( Cpf);
+        public async Task<IActionResult> GetCpf(string Cpf)
+        {
+            var Result = await _Service.BuscarVendasPorCPF(Cpf);
             return Ok(Result);
         }
 

@@ -171,7 +171,7 @@ namespace UnitTests.Domain
             var repository = new Mock<IProdutoRepository>();
             var service = new ProdutoService(repository.Object);
             string resultado = service.AtualizarListaDeProdutos(lista).Result;
-            Assert.Equal("Produtos atualizados com sucesso", resultado );
+            Assert.Equal("Produtos atualizados com sucesso", resultado);
         }
 
         [Fact]
@@ -186,7 +186,7 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
             var service = new ProdutoService(repository.Object);
             string resultado = service.AtualizarListaDeProdutos(lista).Result;
-            Assert.Equal("Produtos atualizados com sucesso", resultado );
+            Assert.Equal("Produtos atualizados com sucesso", resultado);
         }
 
 

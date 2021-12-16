@@ -17,7 +17,7 @@ namespace Application.Interfaces
 
         public Task<string> AdicionarVenda(VendaDTO vendadto);
 
-public         Task ValidarVenda(VendaDTO vendadto);
+        public Task ValidarVenda(VendaDTO vendadto);
 
         public Task<string> AtualizarQuantidadeDeProdutos(VendaDTO vendadto);
 

@@ -18,8 +18,8 @@ namespace UnitTests.Application
         public void BuscarTodasAsVendas_RetornaAListaDeTodasAsVendas()
         {
             var lista = new List<Venda>() as IEnumerable<Venda>;
-            var servicev= new Mock<IVendaService>();
-            var servicep= new Mock<IProdutoService>();
+            var servicev = new Mock<IVendaService>();
+            var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
             servicev.Setup(p => p.BuscarTodasAsVendas()).ReturnsAsync(lista);
             var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
@@ -32,7 +32,7 @@ namespace UnitTests.Application
         public void BuscarVendaPorId_RetornaAVendaCorrespondenteAoIdInserido()
         {
             var id = Guid.NewGuid();
-            var venda = new Venda() { Id = id};
+            var venda = new Venda() { Id = id };
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
@@ -60,7 +60,7 @@ namespace UnitTests.Application
         [Fact]
         public void AdicionarVenda_RetornoDeMensagemPositivaParaChamadaCorretaDeTodosOsServicos()
         {
-            var vendadto = new VendaDTO() {ListaProdutos = new List<ProdutoVendaDTO>()};
+            var vendadto = new VendaDTO() { ListaProdutos = new List<ProdutoVendaDTO>() };
             var valor = 0;
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
@@ -90,14 +90,13 @@ namespace UnitTests.Application
         [Fact]
         public void CalcularValorDaVenda_RetornaValorCorrespondenteAVendaDTOPassada()
         {
-            var vendadto = new VendaDTO() {ListaProdutos = new List<ProdutoVendaDTO>()  };
+            var vendadto = new VendaDTO() { ListaProdutos = new List<ProdutoVendaDTO>() };
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
-            servicev.Setup(p => p.CalcularValorDaVenda(It.IsAny<VendaDTO>(),It.IsAny<List<Produto>>())).Returns(100);
+            servicev.Setup(p => p.CalcularValorDaVenda(It.IsAny<VendaDTO>(), It.IsAny<List<Produto>>())).Returns(100);
             var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
             var resultado = appService.CalcularValorDaVenda(vendadto).Result;
-            Assert.NotNull(resultado);
             Assert.Equal(100, resultado);
         }
 
@@ -105,7 +104,7 @@ namespace UnitTests.Application
         public void AtualizarQuantidadeDeProdutos_RetornaMensagemDeConfirmacaoParaAChamada()
         {
             var lista = new List<Venda>() as IEnumerable<Venda>;
-            var vendadto = new VendaDTO() {ListaProdutos = new List<ProdutoVendaDTO>() };
+            var vendadto = new VendaDTO() { ListaProdutos = new List<ProdutoVendaDTO>() };
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();

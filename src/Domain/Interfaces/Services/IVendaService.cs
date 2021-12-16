@@ -14,7 +14,7 @@ namespace Domain.Interfaces.Services
         public Task<IEnumerable<Venda>> BuscarTodasAsVendas();
 
         public Task<Venda> BuscarVendaPorId(Guid id);
-        
+
         public Task<string> AdicionarVenda(VendaDTO vendadto, double valor);
 
         public Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf);
