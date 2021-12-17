@@ -33,7 +33,7 @@ namespace UnitTests.Domain
         }
 
         [Fact]
-        public void ValidarCadastro_RetornaPositivoParaEntradaComMesmoClienteNoBanco()
+        public async void ValidarCadastro_RetornaPositivoParaEntradaComMesmoClienteNoBanco()
         {
             // Arrange
             Cliente c = new Cliente() { Nome = "Michael", CPF = "734.408.754-58", Email = "michael@.com" };
@@ -45,14 +45,14 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repositoryMock.Object);
 
             // Act
-            bool resultado = service.ValidarCadastro(c).Result;
+            bool resultado = await service.ValidarCadastro(c);
 
             // Assert
             Assert.True(resultado, "O retorno está falso mesmo com a entrada com entidade já presente no banco");
         }
 
         [Fact]
-        public void ValidarCadastro_RetornaTrueCasoExistaEntidadeComMesmoEmailNoBanco()
+        public async void ValidarCadastro_RetornaTrueCasoExistaEntidadeComMesmoEmailNoBanco()
         {
             // Arrange
             Cliente cliente = new Cliente() { Nome = "Michael", CPF = "13602151662", Email = "michael@.com" };
@@ -63,14 +63,14 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            bool resultado = service.ValidarCadastro(clienteErrado).Result;
+            bool resultado = await service.ValidarCadastro(clienteErrado);
 
             // Assert
             Assert.True(resultado, "Mesmo com o email igual a outro objeto armazenado o retorno é falso");
         }
 
         [Fact]
-        public void ValidarCadastro_RetornaTrueParaObjetoComMesmoCPFExistenteNoBanco()
+        public async void ValidarCadastro_RetornaTrueParaObjetoComMesmoCPFExistenteNoBanco()
         {
             // Arrange
             Cliente cliente = new Cliente() { Nome = "Michael", CPF = "13602151662", Email = "michael@.com" };
@@ -81,7 +81,7 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            bool resultado = service.ValidarCadastro(clienteErrado).Result;
+            bool resultado = await service.ValidarCadastro(clienteErrado);
 
             // Assert
             Assert.True(resultado, "Mesmo com cliente com CPF idêntico cadastrado o retorno está falso");
@@ -137,7 +137,7 @@ namespace UnitTests.Domain
             var service = new ClienteService(repository.Object);
 
             // Act
-            bool result1 = service.ValidarCadastro(cliente).Result;
+            bool result1 = await service.ValidarCadastro(cliente);
             bool result2 = service.ValidarCPF(cliente);
             try
             {
@@ -152,6 +152,7 @@ namespace UnitTests.Domain
             await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(cliente));
             Assert.NotNull(exTeste);
         }
+
         [Fact]
         public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaodeCadastro()
         {
@@ -168,7 +169,7 @@ namespace UnitTests.Domain
         }
 
         [Fact]
-        public void CadastrarCliente_RetornaMensagemDeSucessoParaClienteCorretoo()
+        public async void CadastrarCliente_RetornaMensagemDeSucessoParaClienteCorretoo()
         {
             // Arrange
             Cliente cliente = new Cliente() { CPF = "11111111111" };
@@ -177,13 +178,13 @@ namespace UnitTests.Domain
             var service = new ClienteService(repository.Object);
 
             // Act
-            string resultado = service.CadastrarCliente(cliente).Result;
+            string resultado = await service.CadastrarCliente(cliente);
             // Assert
             Assert.Equal("Cliente cadastrado com sucesso", resultado);
         }
 
         [Fact]
-        public void BuscarTodosOsClientes_DeveRetornarTodosOsClientesRetornadosPeloBancoCasoNull()
+        public async void BuscarTodosOsClientes_DeveRetornarTodosOsClientesRetornadosPeloBancoCasoNull()
         {
             // Arrange
             IEnumerable<Cliente> listaVazia = new List<Cliente>() as IEnumerable<Cliente>;
@@ -192,14 +193,14 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            var resultado = service.BuscarTodosOsClientes().Result;
+            var resultado = await service.BuscarTodosOsClientes();
 
             // Assert
             Assert.Equal(listaVazia, resultado);
         }
 
         [Fact]
-        public void BuscarTodosOsClientes_DeveRetornarAListaDeClientesNoRepositorio()
+        public async void BuscarTodosOsClientes_DeveRetornarAListaDeClientesNoRepositorio()
         {
             // Arrange
             Cliente c1 = new Cliente() { Nome = "cliente1" };
@@ -210,7 +211,7 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            var resultado = service.BuscarTodosOsClientes().Result;
+            var resultado = await service.BuscarTodosOsClientes();
 
             // Assert
             Assert.Equal(lista, resultado);
@@ -219,7 +220,7 @@ namespace UnitTests.Domain
         [Theory]
         [InlineData("198.408.843-28")]
         [InlineData("19840884328")]
-        public void BuscarClientePorCPF_RetornaOClienteQuandoPossuiRegistroNoBanco(string cpf)
+        public async void BuscarClientePorCPF_RetornaOClienteQuandoPossuiRegistroNoBanco(string cpf)
         {
             // Arrange
             string cpfLimpo = cpf.Trim().Replace(".", "").Replace("-", "");
@@ -230,7 +231,7 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            Cliente resultado = service.BuscarClientePorCPF(cpf).Result;
+            Cliente resultado = await service.BuscarClientePorCPF(cpf);
 
             // Assert
             Assert.Equal(resultado, cliente);

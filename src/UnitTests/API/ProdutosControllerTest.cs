@@ -16,42 +16,57 @@ namespace UnitTests.API
 {
     public class ProdutosControllerTest : ControllerBase
     {
+
         [Fact]
-        public void Get_RecebeAListaDeTodosOsProdutos()
+        public async void Get_RecebeAListaDeTodosOsProdutos()
         {
+            // Arrange
             var lista = new List<Produto>();
             var appService = new Mock<IProdutoAppService>();
             appService.Setup(x => x.BuscarTodosOsProdutos()).ReturnsAsync(lista);
             var controller = new ProdutosController(appService.Object);
-            var resultado = controller.get().Result;
-            IActionResult esperado = Ok(lista);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
+
+            // Act
+            var resultado = await controller.get() as OkObjectResult;
+
+            // Assert
+            var esperado = Ok(lista);
+            Assert.Equal(esperado.Value, resultado.Value);
         }
 
         [Fact]
-        public void get_id_RetornaOProdutoCorrespondenteAoIdInformado()
+        public async void get_id_RetornaOProdutoCorrespondenteAoIdInformado()
         {
+            // Arrange
             var id = Guid.NewGuid();
             var produto = new Produto() { Id = id };
             var appService = new Mock<IProdutoAppService>();
             appService.Setup(x => x.BuscarProdutoPorId(id)).ReturnsAsync(produto);
             var controller = new ProdutosController(appService.Object);
-            var resultado = controller.Get(id).Result;
-            IActionResult esperado = Ok(produto);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
+
+            // Act
+            var resultado = await controller.Get(id) as OkObjectResult;
+
+            // Assert
+            var esperado = Ok(produto);
+            Assert.Equal(esperado.Value, resultado.Value);
         }
 
         [Fact]
-        public void post_RetornaMensagemPositivaParaPassagemDoProdutoASerAdicionado()
+        public async void post_RetornaMensagemPositivaParaPassagemDoProdutoASerAdicionado()
         {
+            // Arrange
             var produtodto = new ProdutoDTO();
             var appService = new Mock<IProdutoAppService>();
             appService.Setup(x => x.AdicionarProduto(produtodto)).ReturnsAsync("Produto adicionado com sucesso");
             var controller = new ProdutosController(appService.Object);
-            var resultado = controller.Post(produtodto).Result;
-            IActionResult esperado = Ok(produtodto);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
-        }
 
-    }// Fim da classe 
+            // Act
+            var resultado = await controller.Post(produtodto) as OkObjectResult;
+
+            // Assert
+            var esperado = Ok("Produto adicionado com sucesso");
+            Assert.Equal(esperado.Value, resultado.Value);
+        }
+    }
 }

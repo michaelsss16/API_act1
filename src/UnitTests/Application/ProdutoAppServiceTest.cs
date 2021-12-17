@@ -14,41 +14,57 @@ namespace UnitTests.Application
 {
     public class ProdutoAppServiceTest
     {
+
         [Fact]
-        public void BusarTodosOsProdutos_RetornaListaDeProdutos()
+        public async void BusarTodosOsProdutos_RetornaListaDeProdutos()
         {
+            // Arrange
             var lista = new List<Produto>() as IEnumerable<Produto>;
             var service = new Mock<IProdutoService>();
             service.Setup(p => p.BuscarTodosOsProdutos()).ReturnsAsync(lista);
             var appService = new ProdutoAppService(service.Object);
-            var resultado = appService.BuscarTodosOsProdutos().Result;
+
+            // Act
+            var resultado = await appService.BuscarTodosOsProdutos();
+
+            // Assert
             Assert.NotNull(resultado);
             Assert.Equal(lista, resultado);
         }
 
         [Fact]
-        public void BuscarProdutoPorId_RetornaProdutoDeAcordoComOId()
+        public async void BuscarProdutoPorId_RetornaProdutoDeAcordoComOId()
         {
+            // Arrange 
             var id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id };
             var service = new Mock<IProdutoService>();
             service.Setup(p => p.BuscarProdutoPorId(id)).ReturnsAsync(produto);
             var appService = new ProdutoAppService(service.Object);
-            var resultado = appService.BuscarProdutoPorId(id).Result;
+
+            // Act
+            var resultado = await appService.BuscarProdutoPorId(id);
+
+            // Assert
             Assert.NotNull(resultado);
             Assert.Equal(produto, resultado);
         }
 
         [Fact]
-        public void AdicionarProduto_RetornaMensagemPositivaParaAdicao()
+        public async void AdicionarProduto_RetornaMensagemPositivaParaAdicao()
         {
+            // Arrange 
             var produtodto = new ProdutoDTO();
             var service = new Mock<IProdutoService>();
             service.Setup(p => p.AdicionarProduto(produtodto)).ReturnsAsync("Produto adicionado com sucesso");
             var appService = new ProdutoAppService(service.Object);
-            var resultado = appService.AdicionarProduto(produtodto).Result;
+
+            // Acy
+            var resultado = await appService.AdicionarProduto(produtodto);
+
+            // Assert
             Assert.NotNull(resultado);
             Assert.Equal("Produto adicionado com sucesso", resultado);
         }
-    }// fim da classe
+    }
 }

@@ -17,53 +17,75 @@ namespace UnitTests.Domain
     public class ProdutoServiceTest
     {
         [Fact]
-        public void BuscarTodosOsProdutos_TesteDeRetornoNulo()
+        public async void BuscarTodosOsProdutos_TesteDeRetornoNulo()
         {
+            // Arrange 
             var repository = new Mock<IProdutoRepository>();
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarTodosOsProdutos().Result;
+
+            // Act 
+            var Resultado = await service.BuscarTodosOsProdutos();
+
+            // Assert
             Assert.Equal(Resultado, new List<Produto>());
         }
+
         [Fact]
-        public void BuscarTodosOsProdutos_TesteDeRetornoParaProdutoComCamposNulos()
+        public async void BuscarTodosOsProdutos_TesteDeRetornoParaProdutoComCamposNulos()
         {
+            // Arrange 
             Produto produtoNulo = new Produto();
             IEnumerable<Produto> Lista = new List<Produto>() { produtoNulo } as IEnumerable<Produto>;
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get()).ReturnsAsync(Lista);
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarTodosOsProdutos().Result;
+
+            // Act
+            var Resultado = await service.BuscarTodosOsProdutos();
+
+            // Assert 
             Assert.Equal(Resultado, Lista);
         }
 
         [Fact]
-        public void BuscarTodosOsProdutos_TesteDeRetornoParaProdutoComCamposPreenchidos()
+        public async void BuscarTodosOsProdutos_TesteDeRetornoParaProdutoComCamposPreenchidos()
         {
+            // Arrange 
             Produto produto = new Produto() { Id = Guid.NewGuid(), Nome = "ProdutoTeste", Quantidade = 2, Valor = 12345, Descricao = "Produto de teste" };
             IEnumerable<Produto> Lista = new List<Produto>() { produto } as IEnumerable<Produto>;
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get()).ReturnsAsync(Lista);
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarTodosOsProdutos().Result;
+
+            // Act
+            var Resultado = await service.BuscarTodosOsProdutos();
+
+            // Assert
             Assert.Equal(Resultado, Lista);
         }
 
         [Fact]
-        public void BuscarProdutoPorId_TesteComRetornoPreenchidoEComCorrespondencia()
+        public async void BuscarProdutoPorId_TesteComRetornoPreenchidoEComCorrespondencia()
         {
+            // Arrange 
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Nome = "ProdutoTeste", Quantidade = 2, Valor = 12345, Descricao = "Produto de teste" };
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarProdutoPorId(id).Result;
+
+            // Act
+            var Resultado = await service.BuscarProdutoPorId(id);
+
+            // Assert 
             Assert.Equal(Resultado, produto);
             Assert.Equal(Resultado.Id, id);
         }
 
         [Fact]
-        public void BuscarListaDeProdutos_RetornaAListaDosProdutosCorrespondentesAListaPassada()
+        public async void BuscarListaDeProdutos_RetornaAListaDosProdutosCorrespondentesAListaPassada()
         {
+            // Arrange 
             Guid id1 = Guid.NewGuid();
             Guid id2 = Guid.NewGuid();
             Produto p1 = new Produto() { Id = id1 };
@@ -74,57 +96,83 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Get(id1)).ReturnsAsync(p1);
             repository.Setup(p => p.Get(id2)).ReturnsAsync(p2);
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarListaDeProdutosPorId(lista).Result;
+
+            // Act
+            var Resultado = await service.BuscarListaDeProdutosPorId(lista);
+
+            // Assert
             Assert.Equal(Resultado, listaProdutos);
         }
 
         [Fact]
-        public void BuscarListaDeProdutos_PassagemDeListaVazia()
+        public async void BuscarListaDeProdutos_PassagemDeListaVazia()
         {
+            // Arrange 
             List<Guid> lista = new List<Guid>();
             var repository = new Mock<IProdutoRepository>();
             ProdutoService service = new ProdutoService(repository.Object);
-            var Resultado = service.BuscarListaDeProdutosPorId(lista).Result;
+
+            // Act 
+            var Resultado = await service.BuscarListaDeProdutosPorId(lista);
+
+            // Assert 
             Assert.Equal(Resultado, new List<Produto>());
         }
 
         [Fact]
-        public void AdicionarProduto_DeveRetornarAMensagemDeRetornoCorreta()
+        public async void AdicionarProduto_DeveRetornarAMensagemDeRetornoCorreta()
         {
+            // Arrange 
             ProdutoDTO produtodto = new ProdutoDTO();
             Produto produto = new Produto();
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Add(It.IsAny<Produto>())).ReturnsAsync("Produto adicionado com sucesso");
             ProdutoService service = new ProdutoService(repository.Object);
-            string Resultado = service.AdicionarProduto(produtodto).Result;
+
+            // Act
+            string Resultado = await service.AdicionarProduto(produtodto);
+
+            // Assert
             Assert.Equal("Produto adicionado com sucesso", Resultado);
         }
 
         [Fact]
-        public void AtualizarProduto_DeveRetornarAMensagemDeRetornoCorreta()
+        public async void AtualizarProduto_DeveRetornarAMensagemDeRetornoCorreta()
         {
+            // Arrange 
             Produto produto = new Produto();
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
             ProdutoService service = new ProdutoService(repository.Object);
-            string Resultado = service.AtualizarProduto(produto).Result;
+
+            // Act 
+            string Resultado = await service.AtualizarProduto(produto);
+
+            // Assert
             Assert.Equal("Produto atualizado com sucesso", Resultado);
         }
+
         [Fact]
-        public void ValidarVenda_PassagemDeListaVazia()
+        public async void ValidarVenda_PassagemDeListaVazia()
         {
+            // Arrange 
             Exception ex = null;
             var lista = new List<ProdutoVendaDTO>();
             var repository = new Mock<IProdutoRepository>();
             ProdutoService service = new ProdutoService(repository.Object);
+
+            // /Act
             try { service.ValidarVenda(lista); }
             catch (Exception e) { ex = e; }
+
+            // Assert
             Assert.Null(ex);
         }
 
         [Fact]
-        public void ValidarVenda_PassagemDeListaPreenchida()
+        public async void ValidarVenda_PassagemDeListaPreenchida()
         {
+            // Arrange 
             Exception ex = null;
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Quantidade = 3, };
@@ -133,14 +181,19 @@ namespace UnitTests.Domain
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
             ProdutoService service = new ProdutoService(repository.Object);
+
+            // Act
             try { service.ValidarVenda(lista); }
             catch (Exception e) { ex = e; }
+
+            // Assert
             Assert.Null(ex);
         }
 
         [Fact]
         public async void ValidarVenda_ListaComGuidErradoDeveLancarException()
         {
+            // Arrange 
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Quantidade = 3 };
             ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = Guid.NewGuid(), Quantidade = 1 };
@@ -148,12 +201,16 @@ namespace UnitTests.Domain
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
             ProdutoService service = new ProdutoService(repository.Object);
+
+            // Act
+            // Assert
             await Assert.ThrowsAsync<Exception>(() => service.ValidarVenda(lista));
         }
 
         [Fact]
         public async void ValidarVenda_PassagemDeListaPreenchidaComQuantidadeExcedente()
         {
+            // Arrange 
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Quantidade = 3 };
             ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = id, Quantidade = 4 };
@@ -161,22 +218,31 @@ namespace UnitTests.Domain
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
             ProdutoService service = new ProdutoService(repository.Object);
+
+            // Act
+            // Assert
             await Assert.ThrowsAsync<Exception>(() => service.ValidarVenda(lista));
         }
 
         [Fact]
-        public void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaVazia()
+        public async void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaVazia()
         {
+            // Arrange
             var lista = new List<ProdutoVendaDTO>();
             var repository = new Mock<IProdutoRepository>();
             var service = new ProdutoService(repository.Object);
-            string resultado = service.AtualizarListaDeProdutos(lista).Result;
+
+            // Act
+            string resultado = await service.AtualizarListaDeProdutos(lista);
+
+            // Assert
             Assert.Equal("Produtos atualizados com sucesso", resultado);
         }
 
         [Fact]
-        public void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaComProdutos()
+        public async void AtualizarListaDeProdutos_DeveRetornarMensagemParaListaComProdutos()
         {
+            // Arrange 
             var id1 = Guid.NewGuid();
             var produto = new Produto() { Id = id1, Quantidade = 2 };
             var lista = new List<ProdutoVendaDTO>();
@@ -185,10 +251,12 @@ namespace UnitTests.Domain
             repository.Setup(p => p.Get(id1)).ReturnsAsync(produto);
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");
             var service = new ProdutoService(repository.Object);
-            string resultado = service.AtualizarListaDeProdutos(lista).Result;
+
+            // Act
+            string resultado = await service.AtualizarListaDeProdutos(lista);
+
+            // Assert
             Assert.Equal("Produtos atualizados com sucesso", resultado);
         }
-
-
-    } // Fim da classe
+    }
 }

@@ -16,55 +16,75 @@ namespace UnitTests.API
 {
     public class VendasControllerTest : ControllerBase
     {
+
         [Fact]
-        public void Get_RecebeAListaDeTodasAsVendas()
+        public async void Get_RecebeAListaDeTodasAsVendas()
         {
+            // Arrange
             var lista = new List<Venda>();
             var appService = new Mock<IVendaAppService>();
             appService.Setup(x => x.BuscarTodasAsVendas()).ReturnsAsync(lista);
             var controller = new VendasController(appService.Object);
-            var resultado = controller.Get().Result;
-            IActionResult esperado = Ok(lista);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
+
+            // Act
+            var resultado = await controller.Get() as OkObjectResult;
+
+            // Assert
+            var esperado = Ok(lista);
+            Assert.Equal(esperado.Value, resultado.Value);
         }
 
         [Fact]
-        public void get_id_RetornaAVendaCorrespondenteAoIdInformado()
+        public async void get_id_RetornaAVendaCorrespondenteAoIdInformado()
         {
+            // Arrange
             var id = Guid.NewGuid();
             var venda = new Venda();
             var appService = new Mock<IVendaAppService>();
             appService.Setup(x => x.BuscarVendaPorId(id)).ReturnsAsync(venda);
             var controller = new VendasController(appService.Object);
-            var resultado = controller.Get(id).Result;
-            IActionResult esperado = Ok(venda);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
+
+            // Act
+            var resultado = await controller.Get(id) as OkObjectResult;
+
+            // Assert
+            var esperado = Ok(venda);
+            Assert.Equal(esperado.Value, resultado.Value);
         }
 
         [Fact]
-        public void Get_CPF_RetornaVendaCorrespondenteAoCPF()
+        public async void Get_CPF_RetornaVendaCorrespondenteAoCPF()
         {
+            // Arrange 
             var cpf = "11111111111";
             var lista = new List<Venda>();
             var appService = new Mock<IVendaAppService>();
             appService.Setup(x => x.BuscarVendasPorCPF(cpf)).ReturnsAsync(lista);
             var controller = new VendasController(appService.Object);
-            var resultado = controller.GetCpf(cpf).Result;
-            IActionResult esperado = Ok(lista);
-            Assert.Equal(esperado.ToString(), resultado.ToString());
+
+            // Act
+            var resultado = await controller.GetCpf(cpf) as OkObjectResult;
+
+            // Assert
+            var esperado = Ok(lista);
+            Assert.Equal(esperado.Value, resultado.Value);
         }
 
         [Fact]
-        public void Post_RetornaMensagemDeSucessoParaAdicaoDeNovaVendaDTO()
+        public async void Post_RetornaMensagemDeSucessoParaAdicaoDeNovaVendaDTO()
         {
+            // Arrange
             var vendadto = new VendaDTO();
             var appService = new Mock<IVendaAppService>();
             appService.Setup(x => x.AdicionarVenda(vendadto)).ReturnsAsync("Venda adicionada com sucesso");
             var controller = new VendasController(appService.Object);
-            var resultado = controller.Post(vendadto).Result;
-            IActionResult esperado = Ok("Venda adicionada com sucesso");
-            Assert.Equal(esperado.ToString(), resultado.ToString());
-        }
 
-    }// Fim da classe 
+            // Act
+            var resultado = await controller.Post(vendadto) as OkObjectResult;
+
+            // Assert
+            var esperado = Ok("Venda adicionada com sucesso");
+            Assert.Equal(esperado.Value, resultado.Value);
+        }
+    }
 }
