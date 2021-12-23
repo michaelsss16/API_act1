@@ -5,34 +5,47 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
+using Infrastructure.Contexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories
 {
     public class ProdutoRepository : IProdutoRepository
     {
-        private Dictionary<Guid, Produto> ListaProdutos = new Dictionary<Guid, Produto>();
+
+        private readonly appContext _context;
+
+        public ProdutoRepository(appContext context)
+        {
+            _context = context;
+        }
 
         public async Task<IEnumerable<Produto>> Get()
         {
-            return await Task.Run(() => ListaProdutos.Values.ToList());
+            return await _context.Produtos.ToListAsync();
         }
 
         public async Task<Produto> Get(Guid guid)
         {
-            return await Task.Run(() => ListaProdutos.GetValueOrDefault(guid));
+            var produto = await _context.Produtos.FindAsync(guid);
+            return produto;
         }
 
         public async Task<string> Add(Produto produto)
         {
-            await Task.Run(() => ListaProdutos.Add(produto.Id, produto));
+            _context.Produtos.Add(produto);
+            await _context.SaveChangesAsync();
             return "Produto adicionado com sucesso!";
         }
 
         public async Task<string> Update(Produto produto)
         {
-            await Task.Run(()=>ListaProdutos.Remove(produto.Id));
-            await Task.Run(()=>ListaProdutos.Add(produto.Id, produto));
+            var busca = await _context.Produtos.FindAsync(produto.Id);
+            _context.Produtos.Remove(busca);
+            _context.Produtos.Add(produto);
+            await _context.SaveChangesAsync();
             return "Produto atualizado com sucesso";
         }
+
     }
 }

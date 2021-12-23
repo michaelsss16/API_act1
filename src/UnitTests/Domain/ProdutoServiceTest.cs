@@ -162,7 +162,7 @@ namespace UnitTests.Domain
             ProdutoService service = new ProdutoService(repository.Object);
 
             // /Act
-            try { service.ValidarVenda(lista); }
+            try { await service.ValidarVenda(lista); }
             catch (Exception e) { ex = e; }
 
             // Assert
@@ -183,7 +183,7 @@ namespace UnitTests.Domain
             ProdutoService service = new ProdutoService(repository.Object);
 
             // Act
-            try { service.ValidarVenda(lista); }
+            try { await service.ValidarVenda(lista); }
             catch (Exception e) { ex = e; }
 
             // Assert

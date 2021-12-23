@@ -16,6 +16,8 @@ using Domain.Interfaces.Services;
 using Domain.Services;
 using Application.Interfaces;
 using Application.AppServices;
+using Microsoft.EntityFrameworkCore;
+using Infrastructure.Contexts;
 
 namespace API
 {
@@ -31,6 +33,9 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Banco de dados
+            services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv1;User Id=usuario_actv1;Password=usuarioactv1123"));
+
             // Controladores 
             services.AddControllers();
 
@@ -40,14 +45,14 @@ namespace API
             services.AddTransient<IVendaAppService, VendaAppService>();
 
             // Serviços 
-            services.AddSingleton<IClienteService, ClienteService>();
+            services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<IVendaService, VendaService>();
 
             // Repositórios
-            services.AddSingleton<IClienteRepository, ClienteRepository>();
-            services.AddSingleton<IProdutoRepository, ProdutoRepository>();
-            services.AddSingleton<IVendaRepository, VendaRepository>();
+            services.AddTransient<IClienteRepository, ClienteRepository>();
+            services.AddTransient<IProdutoRepository, ProdutoRepository>();
+            services.AddTransient<IVendaRepository, VendaRepository>();
 
             services.AddSwaggerGen(c =>
             {
