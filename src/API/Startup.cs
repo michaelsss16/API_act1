@@ -34,7 +34,7 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // Banco de dados
-            services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv1;User Id=usuario_actv1;Password=usuarioactv1123"));
+            services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv11;User Id=usuario_actv11;Password=usuarioactv11123"));
 
             // Controladores 
             services.AddControllers();

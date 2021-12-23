@@ -176,7 +176,7 @@ namespace UnitTests.Domain
             Exception ex = null;
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Quantidade = 3, };
-            ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = id, Quantidade = 2 };
+            ProdutoVendaDTO venda = new ProdutoVendaDTO() { ProdutoId= id, Quantidade = 2 };
             var lista = new List<ProdutoVendaDTO>() { venda };
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
@@ -196,7 +196,7 @@ namespace UnitTests.Domain
             // Arrange 
             Guid id = Guid.NewGuid();
             Produto produto = new Produto() { Id = id, Quantidade = 3 };
-            ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = Guid.NewGuid(), Quantidade = 1 };
+            ProdutoVendaDTO venda = new ProdutoVendaDTO() { ProdutoId= Guid.NewGuid(), Quantidade = 1 };
             var lista = new List<ProdutoVendaDTO>() { venda };
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
@@ -212,8 +212,8 @@ namespace UnitTests.Domain
         {
             // Arrange 
             Guid id = Guid.NewGuid();
-            Produto produto = new Produto() { Id = id, Quantidade = 3 };
-            ProdutoVendaDTO venda = new ProdutoVendaDTO() { Id = id, Quantidade = 4 };
+            Produto produto = new Produto() { Id= id, Quantidade = 3 };
+            ProdutoVendaDTO venda = new ProdutoVendaDTO() { ProdutoId= id, Quantidade = 4 };
             var lista = new List<ProdutoVendaDTO>() { venda };
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id)).ReturnsAsync(produto);
@@ -246,7 +246,7 @@ namespace UnitTests.Domain
             var id1 = Guid.NewGuid();
             var produto = new Produto() { Id = id1, Quantidade = 2 };
             var lista = new List<ProdutoVendaDTO>();
-            lista.Add(new ProdutoVendaDTO() { Quantidade = 1, Id = id1 });
+            lista.Add(new ProdutoVendaDTO() { Quantidade = 1, ProdutoId= id1 });
             var repository = new Mock<IProdutoRepository>();
             repository.Setup(p => p.Get(id1)).ReturnsAsync(produto);
             repository.Setup(p => p.Update(It.IsAny<Produto>())).ReturnsAsync("Produto atualizado com sucesso");

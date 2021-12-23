@@ -1,4 +1,5 @@
-﻿using Domain.Entities;
+﻿using Domain.DTO;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,5 +18,15 @@ namespace Infrastructure.Contexts
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Produto> Produtos{ get; set; }
         public DbSet<Venda> Vendas{ get; set; }
+        public DbSet<ProdutoVendaDTO> ProdutoVendaDTOs{ get; set; }
+        /*
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Produto>()
+                .HasOne(p => p.Venda)
+                .WithMany(b => b.ListaProdutos)
+                .HasForeignKey(p => p.VendaForeignKey);
+        }
+        */
     }
 }

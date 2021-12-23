@@ -50,7 +50,7 @@ namespace Application.AppServices
 
         public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
         {
-            var ListaIds = vendadto.ListaProdutos.Select(produto => produto.Id).ToList();
+            var ListaIds = vendadto.ListaProdutos.Select(produto => produto.ProdutoId).ToList();
             var ListaProdutos = await _ServiceProduto.BuscarListaDeProdutosPorId(ListaIds);
             return _ServiceVenda.CalcularValorDaVenda(vendadto, ListaProdutos);
         }

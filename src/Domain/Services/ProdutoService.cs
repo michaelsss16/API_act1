@@ -54,9 +54,11 @@ namespace Domain.Services
         {
             foreach (ProdutoVendaDTO item in produtos)
             {
-                var produto = await BuscarProdutoPorId(item.Id);
-                if (produto == null) { throw new Exception("Não existe produto com o id informado: " + item.Id.ToString()); }
-                if (item.Quantidade > produto.Quantidade) { throw new Exception("Não existe quantidade suficiente de produtos no estoque para o id: " + item.Id.ToString()); }
+                item.Id = Guid.NewGuid();
+                var produto = await BuscarProdutoPorId(item.ProdutoId);
+                if (produto == null) { throw new Exception("Não existe produto com o id informado: " + item.ProdutoId.ToString()); }
+                if (item.Quantidade > produto.Quantidade) { throw new Exception("Não existe quantidade suficiente de produtos no estoque para o id: " + item.ProdutoId.ToString()); }
+                if (item.Quantidade <= 0) { throw new Exception("A quantidade informada não é válida no produto com id: " + item.ProdutoId.ToString()); }
             }
         }
 
@@ -64,7 +66,7 @@ namespace Domain.Services
         {
             foreach (ProdutoVendaDTO item in produtos)
             {
-                var produto = await BuscarProdutoPorId(item.Id);
+                var produto = await BuscarProdutoPorId(item.ProdutoId);
                 produto.Quantidade -= item.Quantidade;
                 await AtualizarProduto(produto);
             }

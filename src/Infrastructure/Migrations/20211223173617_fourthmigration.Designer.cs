@@ -4,14 +4,16 @@ using Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(appContext))]
-    partial class appContextModelSnapshot : ModelSnapshot
+    [Migration("20211223173617_fourthmigration")]
+    partial class fourthmigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,22 +27,20 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("ProdutoId")
+                    b.Property<Guid>("ProdutoGuid")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("VendaId")
+                    b.Property<Guid?>("VendaId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProdutoId");
-
                     b.HasIndex("VendaId");
 
-                    b.ToTable("ProdutoVendaDTOs");
+                    b.ToTable("ProdutoVendaDTO");
                 });
 
             modelBuilder.Entity("Domain.Entities.Cliente", b =>
@@ -106,21 +106,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.DTO.ProdutoVendaDTO", b =>
                 {
-                    b.HasOne("Domain.Entities.Produto", "Produto")
-                        .WithMany()
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Venda", "Venda")
+                    b.HasOne("Domain.Entities.Venda", null)
                         .WithMany("ListaProdutos")
-                        .HasForeignKey("VendaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Produto");
-
-                    b.Navigation("Venda");
+                        .HasForeignKey("VendaId");
                 });
 
             modelBuilder.Entity("Domain.Entities.Venda", b =>

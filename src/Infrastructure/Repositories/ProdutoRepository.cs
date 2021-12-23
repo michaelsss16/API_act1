@@ -42,6 +42,8 @@ namespace Infrastructure.Repositories
         {
             var busca = await _context.Produtos.FindAsync(produto.Id);
             _context.Produtos.Remove(busca);
+            await _context.SaveChangesAsync();
+
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
             return "Produto atualizado com sucesso";
