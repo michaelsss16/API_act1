@@ -40,11 +40,12 @@ namespace Infrastructure.Repositories
 
         public async Task<string> Update(Produto produto)
         {
-            var busca = await _context.Produtos.FindAsync(produto.Id);
-            _context.Produtos.Remove(busca);
-            await _context.SaveChangesAsync();
+            //var busca = await _context.Produtos.FindAsync(produto.Id);
+            //_context.Produtos.Remove(busca);
+//            await _context.SaveChangesAsync();
 
-            _context.Produtos.Add(produto);
+            //_context.Produtos.Add(produto);
+            _context.Produtos.Update(produto);
             await _context.SaveChangesAsync();
             return "Produto atualizado com sucesso";
         }

@@ -54,7 +54,7 @@ namespace Domain.Services
         {
             foreach (ProdutoVendaDTO item in produtos)
             {
-                item.Id = Guid.NewGuid();
+                //item.Id = Guid.NewGuid();
                 var produto = await BuscarProdutoPorId(item.ProdutoId);
                 if (produto == null) { throw new Exception("Não existe produto com o id informado: " + item.ProdutoId.ToString()); }
                 if (item.Quantidade > produto.Quantidade) { throw new Exception("Não existe quantidade suficiente de produtos no estoque para o id: " + item.ProdutoId.ToString()); }

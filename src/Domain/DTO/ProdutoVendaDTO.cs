@@ -10,13 +10,11 @@ namespace Domain.DTO
     public class ProdutoVendaDTO
     {
         public Guid Id { get; set; }
-
-        public Guid  ProdutoId {   set; get;}
-
             public int Quantidade { get; set; }
 
         public Venda Venda{ get; set; }
-        public Produto Produto { set; get; }
         public Guid VendaId { set; get; }
+        public Produto Produto { set; get; }
+        public Guid  ProdutoId {   set; get;}
     }
 }
