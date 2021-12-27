@@ -10,7 +10,7 @@ using Domain.DTO;
 
 namespace Domain.Services
 {
-    public class ProdutoService : IProdutoService
+    public class ProdutoService :  IProdutoService
     {
         private readonly IProdutoRepository _Repository;
 
