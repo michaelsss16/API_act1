@@ -43,16 +43,19 @@ namespace API
             services.AddTransient<IClienteAppService, ClienteAppService>();
             services.AddTransient<IProdutoAppService, ProdutoAppService>();
             services.AddTransient<IVendaAppService, VendaAppService>();
+            services.AddTransient<IUsuarioAppService, UsuarioAppService>();
 
             // Serviços 
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<IVendaService, VendaService>();
+            services.AddTransient<IUsuarioService, UsuarioService>();
 
             // Repositórios
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IVendaRepository, VendaRepository>();
+            services.AddTransient<IUsuarioRepository, UsuarioRepository>();
 
             services.AddSwaggerGen(c =>
             {

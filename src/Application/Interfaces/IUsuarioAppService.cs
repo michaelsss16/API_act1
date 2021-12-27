@@ -6,15 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces.Services
+namespace Application.Interfaces
 {
-    public interface IUsuarioService
+    public interface IUsuarioAppService
     {
-        public Task<IEnumerable<Usuario>> BuscarTodosOsUsuarios();
+        public Task<IEnumerable<Usuario>> BuscarrTodosOsUsuarios();
         public Task<Usuario> BuscarUsuarioPorId(Guid id);
         public Task<string> AdicionarUsuario(UsuarioDTO usuariodto);
-        public Task<string> AtualizarUsuario(Usuario usuario);
         public Task<string> RemoverUsuario(Usuario usuario);
-        public bool ValidarCPF(string cpf);
     }
 }
