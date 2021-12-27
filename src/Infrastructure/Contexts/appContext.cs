@@ -20,14 +20,6 @@ namespace Infrastructure.Contexts
         public DbSet<Venda> Vendas{ get; set; }
         public DbSet<ProdutoVendaDTO> ProdutoVendaDTOs{ get; set; }
         public DbSet<Usuario> Usuarios{ get; set; }
-        /*
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Produto>()
-                .HasOne(p => p.Venda)
-                .WithMany(b => b.ListaProdutos)
-                .HasForeignKey(p => p.VendaForeignKey);
-        }
-        */
+        
     }
 }
