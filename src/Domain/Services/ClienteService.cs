@@ -31,7 +31,7 @@ namespace Domain.Services
         {
             cliente.CPF = cliente.CPF.Trim();
             cliente.CPF = cliente.CPF.Replace(".", "").Replace("-", "");
-            if (!(ValidarCPF(cliente)))
+            if (!(ValidarCPF(cliente.CPF)))
             {
                 throw new InvalidOperationException("O CPF informado não é válido");
             }

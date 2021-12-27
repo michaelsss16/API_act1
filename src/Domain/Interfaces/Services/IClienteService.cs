@@ -9,7 +9,7 @@ namespace Domain.Interfaces.Services
     {
         public Task<bool> ValidarCadastro(Cliente cliente);
 
-        public bool ValidarCPF(Cliente cliente);
+        public bool ValidarCPF(string cpf );
 
         public Task ValidarTodasAsRegras(Cliente cliente);
 

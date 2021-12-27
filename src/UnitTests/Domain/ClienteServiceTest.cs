@@ -102,7 +102,7 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            bool Resultado = service.ValidarCPF(cliente);
+            bool Resultado = service.ValidarCPF(cliente.CPF);
 
             // Assert
             Assert.False(Resultado, "O valor de retorno está verdadeiro para entradas incorretasde CPF");
@@ -119,7 +119,7 @@ namespace UnitTests.Domain
             ClienteService service = new ClienteService(repository.Object);
 
             // Act
-            bool Resultado = service.ValidarCPF(cliente);
+            bool Resultado = service.ValidarCPF(cliente.CPF);
 
             // Assert
             Assert.True(Resultado, "O valor de retorno está falso para entradas corretats de CPF");
@@ -138,7 +138,7 @@ namespace UnitTests.Domain
 
             // Act
             bool result1 = await service.ValidarCadastro(cliente);
-            bool result2 = service.ValidarCPF(cliente);
+            bool result2 = service.ValidarCPF(cliente.CPF);
             try
             {
                 await service.ValidarTodasAsRegras(cliente);
