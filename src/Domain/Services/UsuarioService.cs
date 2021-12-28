@@ -46,8 +46,7 @@ var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usua
             usuariodto.CPF = usuariodto.CPF.Replace(".", "").Replace("-", "");
             if (usuariodto.Tipo != null) { usuariodto.Tipo = usuariodto.Tipo.Trim(); }
 
-            try { await ValidarTodasAsRegras(usuariodto); }
-            catch (Exception E) { return E.Message; }
+            await ValidarTodasAsRegras(usuariodto); 
             usuariodto.Senha = Encriptar(usuariodto.Senha);
             var usuario = new Usuario() { Id = Guid.NewGuid(), Nome = usuariodto.Nome, Email = usuariodto.Email, Tipo = usuariodto.Tipo, Senha = usuariodto.Senha, CPF = usuariodto.CPF };
             return await _repository.Add(usuario);

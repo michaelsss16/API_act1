@@ -1,8 +1,13 @@
 # Dúvidas
 # Tarefas
+teste de buscar todos os usuários falhando quando tem elementos 
+adicionar método para formatação do usuário para entrada 
+adicionar projeto com métodos úteis 
+gerar testes unitários para o serviço de encriptação 
 Conseguir gerar o html contendo as informações de cobertura de teste
-Adicionar os comentários de divisão de partes dos testes unitários para o produto service test
 adicionar mensagens de retorno para erro dos testes unitários de todos os arquivos de teste
+Desenvolver sistema front para acesso ao projeto 
+Resolver o problema de retorno nulo para a lista de produtos de uma compra 
 
 # API_act
 Descrição da atividade ppara ser executada:
@@ -27,3 +32,9 @@ A venda deve possuir um Id único, no formato Guid.
 Ao realizar a venda o sistema deve validar se o item possui a quantidade que o cliente deseja comprar em estoque, em caso positivo, o sistema deve subtrair do item a quantidade que o cliente está comprando. Caso não haja em estoque a quantidade comprada pelo cliente, o sistema deve devolver uma mensagem de erro, informando qual produto não possui a quantidade desejada
 Deve ser possivel recuperar os detalhes de uma compra usando o Id da compra, incluindo os itens, seus nomes, valores e o valor total da compra.
 Deve ser possível listar todas as compras de um cliente através de seu CPF.
+Funcionalidades de usuário
+
+Deve ser permitida a criação de usuários
+Os usuários devem ser divididos em dois grupos: Clientes e Administradores (enums)
+Ambos devem ser cadastrados com as seguintes informações: Nome, Email, CPF, Senha e id
+A senha não deve ser armazenada na base de dados sem criptografia
