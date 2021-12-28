@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 using Domain.Entities;
 using Domain.Interfaces.Services;
 using Domain.Interfaces.Repositories;
-
+using Utils;
 
 namespace Domain.Services
 {
-    public class ClienteService : ValidacoesService, IClienteService
+    public class ClienteService : Util, IClienteService
     {
         private readonly IClienteRepository _Repository;
         public ClienteService(IClienteRepository repository)

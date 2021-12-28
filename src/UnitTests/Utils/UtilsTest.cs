@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Utils;
 using Xunit;
 
-namespace UnitTests.Domain
+namespace UnitTests.Utils
 {
-    public class ValidacoesServiceTest
+    public class UtilsTest
     {
         [Theory]
         [InlineData("266.990.198-06")]
@@ -19,7 +20,7 @@ namespace UnitTests.Domain
         public void ValidarCpf_DeveRetornarValorFalsoParaEntradasIncorretas(string cpf)
         {
             // Arrange
-            var service = new ValidacoesService();
+            var service = new Util();
 
             // Act
             bool Resultado = service.ValidarCPF(cpf);
@@ -34,7 +35,7 @@ namespace UnitTests.Domain
         public void ValidarCPF_DeveRetornarPositivoParaDadosDeEntradaCorretos(string cpf)
         {
             // Arrange
-            var service = new ValidacoesService();
+            var service = new Util();
 
             // Act
             bool Resultado = service.ValidarCPF(cpf);
