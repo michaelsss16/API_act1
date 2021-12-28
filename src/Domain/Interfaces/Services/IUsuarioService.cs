@@ -19,5 +19,6 @@ namespace Domain.Interfaces.Services
         public Task<bool> ValidarCadastro(UsuarioDTO usuariodto);
         public bool ValidarTipoDeUsuario(UsuarioDTO usuariodto);
         public Task ValidarTodasAsRegras(UsuarioDTO usuariodto);
+        public UsuarioDTO FormatarUsuarioDTO(UsuarioDTO usuariodto);
     }
 }

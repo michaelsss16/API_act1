@@ -1,7 +1,6 @@
 # Dúvidas
 # Tarefas
 teste de buscar todos os usuários falhando quando tem elementos 
-adicionar método para formatação do usuário para entrada 
 adicionar projeto com métodos úteis 
 gerar testes unitários para o serviço de encriptação 
 Conseguir gerar o html contendo as informações de cobertura de teste

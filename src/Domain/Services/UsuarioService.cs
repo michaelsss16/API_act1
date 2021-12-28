@@ -28,7 +28,7 @@ namespace Domain.Services
             var retorno = new List<UsuarioGetDTO>();
             foreach (var usuario in lista)
             {
-var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usuario.Email, Tipo = usuario.Tipo, CPF = usuario.CPF };
+                var u = new UsuarioGetDTO() { Id = usuario.Id, Nome = usuario.Nome, Email = usuario.Email, Tipo = usuario.Tipo, CPF = usuario.CPF };
                 retorno.Add(u);
             }
             return retorno;
@@ -43,11 +43,8 @@ var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usua
 
         public async Task<string> AdicionarUsuario(UsuarioDTO usuariodto)
         {
-            usuariodto.CPF = usuariodto.CPF.Trim();
-            usuariodto.CPF = usuariodto.CPF.Replace(".", "").Replace("-", "");
-            if (usuariodto.Tipo != null) { usuariodto.Tipo = usuariodto.Tipo.Trim(); }
-
-            await ValidarTodasAsRegras(usuariodto); 
+            usuariodto = FormatarUsuarioDTO(usuariodto);
+            await ValidarTodasAsRegras(usuariodto);
             usuariodto.Senha = Encriptar(usuariodto.Senha);
             var usuario = new Usuario() { Id = Guid.NewGuid(), Nome = usuariodto.Nome, Email = usuariodto.Email, Tipo = usuariodto.Tipo, Senha = usuariodto.Senha, CPF = usuariodto.CPF };
             return await _repository.Add(usuario);
@@ -89,6 +86,16 @@ var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usua
             if (ValidarTipoDeUsuario(usuariodto)) { throw new InvalidOperationException("O tipo de usuário informado não é válido"); }
         }
 
+        public UsuarioDTO FormatarUsuarioDTO(UsuarioDTO usuariodto)
+        {
+            if (usuariodto.CPF != null)
+            {
+                usuariodto.CPF = usuariodto.CPF.Trim();
+                usuariodto.CPF = usuariodto.CPF.Replace(".", "").Replace("-", "");
+            }
+            if (usuariodto.Tipo != null) { usuariodto.Tipo = usuariodto.Tipo.Trim(); }
+            return usuariodto;
+        }
 
     }
 }
