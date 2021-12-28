@@ -44,7 +44,7 @@ var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usua
         {
             usuariodto.CPF = usuariodto.CPF.Trim();
             usuariodto.CPF = usuariodto.CPF.Replace(".", "").Replace("-", "");
-            usuariodto.Tipo = usuariodto.Tipo.Trim();
+            if (usuariodto.Tipo != null) { usuariodto.Tipo = usuariodto.Tipo.Trim(); }
 
             try { await ValidarTodasAsRegras(usuariodto); }
             catch (Exception E) { return E.Message; }
@@ -83,10 +83,10 @@ var u  = new UsuarioGetDTO(){ Id = usuario.Id, Nome = usuario.Nome, Email = usua
 
         public async Task ValidarTodasAsRegras(UsuarioDTO usuariodto)
         {
-            if (usuariodto == null) { throw new Exception("Não é possível adicionar usuário com campos vazios"); }
-            if (!ValidarCPF(usuariodto.CPF)) { throw new Exception("O CPF informado não é válido"); }
-            if (await ValidarCadastro(usuariodto)) { throw new Exception("Já existe cadastro de usuário com mesmo CPF ou Email"); }
-            if (ValidarTipoDeUsuario(usuariodto)) { throw new Exception("O tipo de usuário informado não é válido"); }
+            if (usuariodto == null) { throw new InvalidOperationException("Não é possível adicionar usuário com campos vazios"); }
+            if (!ValidarCPF(usuariodto.CPF)) { throw new InvalidOperationException("O CPF informado não é válido"); }
+            if (await ValidarCadastro(usuariodto)) { throw new InvalidOperationException("Já existe cadastro de usuário com mesmo CPF ou Email"); }
+            if (ValidarTipoDeUsuario(usuariodto)) { throw new InvalidOperationException("O tipo de usuário informado não é válido"); }
         }
 
         public static string Encriptar(string mensagem)

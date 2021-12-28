@@ -48,6 +48,138 @@ namespace UnitTests.Domain
             // Assert
             Assert.True(resultado, "O retorno está falso mesmo com a entrada com entidade já presente no banco");
         }
+        [Fact]
+        public async void ValidarCadastro_RetornaTrueCasoExistaEntidadeComMesmoEmailNoBanco()
+        {
+            // Arrange
+            var usuario = new Usuario() { Nome = "Michael", CPF = "13602151662", Email = "michael@.com" };
+            var usuarioerrado = new UsuarioDTO() { Nome = "Michael", CPF = "13602151662", Email = "michael@.com" };
+            IEnumerable<Usuario> usuarios = new List<Usuario>() { usuario} as IEnumerable<Usuario>;
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get()).ReturnsAsync(usuarios);
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            bool resultado = await service.ValidarCadastro(usuarioerrado);
+
+            // Assert
+            Assert.True(resultado, "Mesmo com o email igual a outro objeto armazenado o retorno é falso");
+        }
+
+        [Fact]
+        public async void ValidarCadastro_RetornaTrueParaObjetoComMesmoCPFExistenteNoBanco()
+        {
+            // Arrange
+            var usuario = new Usuario() { Nome = "Michael", CPF = "13602151662", Email = "1michael@.com" };
+            var usuarioerrado = new UsuarioDTO() { Nome = "Michael", CPF = "13602151662", Email = "Michael@.com" };
+            IEnumerable<Usuario> usuarios = new List<Usuario>() { usuario} as IEnumerable<Usuario>;
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get()).ReturnsAsync(usuarios);
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            bool resultado = await service.ValidarCadastro(usuarioerrado);
+
+            // Assert
+            Assert.True(resultado, "Mesmo com usuário com CPF idêntico cadastrado o retorno está falso");
+        }
+
+        [Fact]
+        public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaoDeCPF()
+        {
+            // Arrange
+            Exception exTeste = null;
+            var usuario = new UsuarioDTO () { CPF = "198.408.843-29" };// Final 8 é cpf válido
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get());
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            bool result1 = await service.ValidarCadastro(usuario);
+            bool result2 = service.ValidarCPF(usuario.CPF);
+            try
+            {
+                await service.ValidarTodasAsRegras(usuario);
+            }
+            catch (Exception ex)
+            {
+                exTeste = ex;
+            }
+
+            // Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(usuario));
+            Assert.NotNull(exTeste);
+        }
+
+        [Fact]
+        public async Task ValidarTodasAsRegras_LancaExceptionParaErrosDeValidacaodeCadastro()
+        {
+            // Arrange
+            var usuarioteste = new UsuarioDTO() { Nome = "Michael", CPF = "198.408.843-28", Email = "michael@.com" };
+            var usuario= new Usuario() { Nome = "Michael", CPF = "198.408.843-28", Email = "michael@.com" };
+            IEnumerable<Usuario> lista = new List<Usuario>() { usuario} as IEnumerable<Usuario>;
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get()).ReturnsAsync(lista);
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            // Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(() => service.ValidarTodasAsRegras(usuarioteste));
+        }
+
+        [Fact]
+        public async void AdicionarUsuario_RetornaMensagemDeSucessoParaValoresCorretos()
+        {
+            // Arrange
+            var usuario= new UsuarioDTO() { CPF = "364.418.010-51", Tipo = "cliente" , Email = "Michael@.com", Senha = "12345"};
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Add(It.IsAny<Usuario>())).ReturnsAsync("Usuário cadastrado com sucesso");
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            string resultado = await service.AdicionarUsuario(usuario);
+            // Assert
+            Assert.Equal("Usuário cadastrado com sucesso", resultado);
+        }
+
+        [Fact]
+        public async void BuscarTodosOsUsuarios_RetornaListaNulaDeUsuarios()
+        {
+            // Arrange
+            var listaVazia = new List<Usuario>() as IEnumerable<Usuario>;
+            var listaEsperada = new List<UsuarioGetDTO>() as IEnumerable<UsuarioGetDTO>;
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get()).ReturnsAsync(listaVazia);
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            IEnumerable<UsuarioGetDTO>resultado = await service.BuscarTodosOsUsuarios();
+
+            // Assert
+            Assert.Equal(listaEsperada, resultado);
+        }
+
+        [Fact]
+        public async void BuscarTodosOsUsuarios_RetornaAListaDeUsuariosNoBanco()
+        {
+            // Arrange
+            var c1 = new Usuario() { };
+            var e1= new UsuarioGetDTO() { };
+            var lista = new List<Usuario>() { c1} as IEnumerable<Usuario>;
+            var listaEsperada = new List<UsuarioGetDTO>() { e1};
+            var repository = new Mock<IUsuarioRepository>();
+            repository.Setup(p => p.Get()).ReturnsAsync(lista);
+            var service = new UsuarioService(repository.Object);
+
+            // Act
+            List<UsuarioGetDTO> resultado = await service.BuscarTodosOsUsuarios() as List<UsuarioGetDTO>;
+
+            // Assert
+            Assert.Equal(listaEsperada, resultado);
+        }
+
+
+
 
     }// fim da classe
 }
