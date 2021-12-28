@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public enum UserType {cliente, administrador}
 
     public class Usuario
     {
@@ -20,6 +19,6 @@ namespace Domain.Entities
 
         public string Senha { get; set; }
 
-        public UserType Tipo {set; get;}
+        public string Tipo {set; get;}
     }
 }

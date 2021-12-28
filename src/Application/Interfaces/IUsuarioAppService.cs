@@ -10,8 +10,8 @@ namespace Application.Interfaces
 {
     public interface IUsuarioAppService
     {
-        public Task<IEnumerable<Usuario>> BuscarrTodosOsUsuarios();
-        public Task<Usuario> BuscarUsuarioPorId(Guid id);
+        public Task<IEnumerable<UsuarioGetDTO>> BuscarrTodosOsUsuarios();
+        public Task<UsuarioGetDTO> BuscarUsuarioPorId(Guid id);
         public Task<string> AdicionarUsuario(UsuarioDTO usuariodto);
         public Task<string> RemoverUsuario(Usuario usuario);
     }

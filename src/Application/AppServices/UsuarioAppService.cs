@@ -19,12 +19,12 @@ namespace Application.AppServices
             _service = service;
         }
 
-        public async Task<IEnumerable<Usuario>> BuscarrTodosOsUsuarios()
+        public async Task<IEnumerable<UsuarioGetDTO>> BuscarrTodosOsUsuarios()
         {
             return await _service.BuscarTodosOsUsuarios();
         }
 
-        public async Task<Usuario> BuscarUsuarioPorId(Guid id)
+        public async Task<UsuarioGetDTO> BuscarUsuarioPorId(Guid id)
         {
             return await _service.BuscarUsuarioPorId(id);
         }
