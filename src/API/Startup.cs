@@ -18,6 +18,9 @@ using Application.Interfaces;
 using Application.AppServices;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Contexts;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace API
 {
@@ -33,6 +36,27 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Autenticação 
+            services.AddCors();
+            var key = Encoding.ASCII.GetBytes(settings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
+
             // Banco de dados
             services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv11;User Id=usuario_actv11;Password=usuarioactv11123"));
 
@@ -75,6 +99,12 @@ namespace API
 
             app.UseRouting();
 
+            app.UseCors(x => x
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

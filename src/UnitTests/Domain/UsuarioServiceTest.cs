@@ -175,7 +175,7 @@ namespace UnitTests.Domain
             List<UsuarioGetDTO> resultado = await service.BuscarTodosOsUsuarios() as List<UsuarioGetDTO>;
 
             // Assert
-            //            Assert.Equal(listaEsperada, resultado);
+                        //Assert.Equal(listaEsperada[0], resultado[0]);
             Assert.NotNull(resultado);
         }
 

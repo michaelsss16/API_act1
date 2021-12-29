@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Domain.DTO;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -19,12 +20,14 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _Service.BuscarTodasAsVendas());
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _Service.BuscarVendaPorId(id));
@@ -32,6 +35,7 @@ namespace API.Controllers
 
         [Route("cpf/{Cpf}")]
         [HttpGet]
+        [Authorize(Roles = "cliente")]
         public async Task<IActionResult> GetCpf(string Cpf)
         {
             var Result = await _Service.BuscarVendasPorCPF(Cpf);
@@ -39,6 +43,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "cliente")]
         public async Task<IActionResult> Post(VendaDTO vendadto)
         {
             return Ok(await _Service.AdicionarVenda(vendadto));

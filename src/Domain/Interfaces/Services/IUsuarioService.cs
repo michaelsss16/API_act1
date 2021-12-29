@@ -20,5 +20,6 @@ namespace Domain.Interfaces.Services
         public bool ValidarTipoDeUsuario(UsuarioDTO usuariodto);
         public Task ValidarTodasAsRegras(UsuarioDTO usuariodto);
         public UsuarioDTO FormatarUsuarioDTO(UsuarioDTO usuariodto);
+        public Task<UsuarioToken> EncontrarOcorrenciaPorCredencial(Login login);
     }
 }

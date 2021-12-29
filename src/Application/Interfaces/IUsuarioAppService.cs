@@ -14,5 +14,6 @@ namespace Application.Interfaces
         public Task<UsuarioGetDTO> BuscarUsuarioPorId(Guid id);
         public Task<string> AdicionarUsuario(UsuarioDTO usuariodto);
         public Task<string> RemoverUsuario(Usuario usuario);
+        public Task<UsuarioToken> EncontrarOcorrenciaPorCredencial(Login login);
     }
 }

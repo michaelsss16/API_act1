@@ -40,5 +40,10 @@ namespace Application.AppServices
         {
             return await _service.RemoverUsuario(usuario);
         }
+
+        public async Task<UsuarioToken> EncontrarOcorrenciaPorCredencial(Login login)
+        {
+            return await _service.EncontrarOcorrenciaPorCredencial(login);
+        }
     }
 }

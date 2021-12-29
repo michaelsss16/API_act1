@@ -9,6 +9,7 @@ using Domain.Interfaces.Repositories;
 using Domain.Interfaces.Services;
 using Application.Interfaces;
 using Application.AppServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
@@ -24,17 +25,21 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             return Ok(await _Service.BuscarTodosOsClientes());
         }
 
         [HttpGet("{cpf}")]
+        [Authorize]
         public async Task<IActionResult> get(string cpf)
         {
             return Ok(await _Service.BuscarClientePorCPF(cpf));
         }
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> post(Cliente request)
         {
             var Resultado = await _Service.ValidarEAdicionarCliente(request);

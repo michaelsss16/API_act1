@@ -97,5 +97,23 @@ namespace Domain.Services
             return usuariodto;
         }
 
+        public async Task<UsuarioToken> EncontrarOcorrenciaPorCredencial(Login login)
+        {
+            if (login.Nome == null) { throw new Exception("O usuário não pode ser nulo ou vazio"); }
+            if (login.Senha == null) { throw new Exception("A senha não pode ser nula ou vazia"); }
+            login.Nome = login.Nome.Trim();
+            login.Senha = Encriptar(login.Senha);
+
+            var lista = await _repository.Get() as List<Usuario>;
+            foreach (Usuario item in lista)
+            {
+                if ((item.Nome == login.Nome) && (item.Senha == login.Senha))
+                {
+                    return new UsuarioToken() { Nome = item.Nome, Tipo = item.Tipo, CPF = item.CPF};
+                }
+            }
+            throw new Exception("Não foi possível encontrar usuário com as credenciais informadas");
+        }
+
     }
 }

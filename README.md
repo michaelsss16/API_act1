@@ -1,9 +1,6 @@
 # Dúvidas
 # Tarefas
-teste de buscar todos os usuários falhando quando tem elementos 
-adicionar projeto com métodos úteis 
-gerar testes unitários para o serviço de encriptação 
-Conseguir gerar o html contendo as informações de cobertura de teste
+fazer busca de vendas por cpf a partir do cpf do jwt
 adicionar mensagens de retorno para erro dos testes unitários de todos os arquivos de teste
 Desenvolver sistema front para acesso ao projeto 
 Resolver o problema de retorno nulo para a lista de produtos de uma compra 
