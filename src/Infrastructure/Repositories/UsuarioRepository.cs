@@ -43,7 +43,7 @@ namespace Infrastructure.Repositories
             return "Usuário atualizado com sucesso";
         }
 
-        public async Task<string>Delete(Usuario usuario)
+        public async Task<string> Delete(Usuario usuario)
         {
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();

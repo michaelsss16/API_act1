@@ -109,7 +109,7 @@ namespace Domain.Services
             {
                 if ((item.Nome == login.Nome) && (item.Senha == login.Senha))
                 {
-                    return new UsuarioToken() { Nome = item.Nome, Tipo = item.Tipo, CPF = item.CPF};
+                    return new UsuarioToken() { Nome = item.Nome, Tipo = item.Tipo, CPF = item.CPF };
                 }
             }
             throw new Exception("Não foi possível encontrar usuário com as credenciais informadas");

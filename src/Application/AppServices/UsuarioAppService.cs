@@ -31,7 +31,7 @@ namespace Application.AppServices
 
         public async Task<string> AdicionarUsuario(UsuarioDTO usuariodto)
         {
-            
+
             try { return await _service.AdicionarUsuario(usuariodto); }
             catch (Exception e) { return e.Message; }
         }

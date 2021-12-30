@@ -1,12 +1,3 @@
-# Dúvidas
-# Tarefas
-Adicionar descrição para as atividades exigidas
-Adicionar todos os links utilizados em consultas para desenvolvimento 
-Adicionar tecnologias e pacotes utilizados no projeto 
-Escrever breve documentação de uso
-adicionar mensagens de retorno para erro dos testes unitários de todos os arquivos de teste
-Resolver o problema de retorno nulo para a lista de produtos de uma compra 
-
 # API_act
 Descrição da atividade ppara ser executada:
 Este exercício consiste em criar uma pequena API capaz de vender produtos a um cliente. 
@@ -30,9 +21,17 @@ A venda deve possuir um Id único, no formato Guid.
 Ao realizar a venda o sistema deve validar se o item possui a quantidade que o cliente deseja comprar em estoque, em caso positivo, o sistema deve subtrair do item a quantidade que o cliente está comprando. Caso não haja em estoque a quantidade comprada pelo cliente, o sistema deve devolver uma mensagem de erro, informando qual produto não possui a quantidade desejada
 Deve ser possivel recuperar os detalhes de uma compra usando o Id da compra, incluindo os itens, seus nomes, valores e o valor total da compra.
 Deve ser possível listar todas as compras de um cliente através de seu CPF.
+
 Funcionalidades de usuário
 
 Deve ser permitida a criação de usuários
 Os usuários devem ser divididos em dois grupos: Clientes e Administradores (enums)
 Ambos devem ser cadastrados com as seguintes informações: Nome, Email, CPF, Senha e id
 A senha não deve ser armazenada na base de dados sem criptografia
+
+Autenticação
+    Login e cadastro de usuários podem ser feitos sem autenticação
+    É preciso estar autenticado para os outros endpoints. Alguns deles, com papeis definidos:
+    o endpoint de fazer a venda deve ser restrito somente aos clientes
+    o endpoint de listar vendas por cpf deve ser restrito aos clientes, e deve buscar somente as compras do cpf que tiver no token
+    o endpoint de cadastrar e editar produto deve ser restrito somente aos admins

@@ -29,14 +29,14 @@ namespace API.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult<dynamic>>  Get(Login login)
+        public async Task<ActionResult<dynamic>> Get(Login login)
         {
             try
             {
                 var user = await _service.EncontrarOcorrenciaPorCredencial(login);
                 var token = TokenService.GenerateToken(user);
                 return Ok(
-                    new { User = user, Token = token}
+                    new { User = user, Token = token }
                     );
             }
             catch (Exception e)

@@ -10,11 +10,8 @@ namespace Domain.Entities
     public class Venda
     {
         public Guid Id { get; set; }
-
         public string CPF { get; set; }
-
         public List<ProdutoVendaDTO> ListaProdutos { get; set; }
-
         public double Valor { set; get; }
     }
 }

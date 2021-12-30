@@ -40,7 +40,7 @@ namespace API.Controllers
         [Authorize(Roles = "cliente")]
         public async Task<IActionResult> GetCpf(string Cpf)
         {
-            var Result = await _Service.BuscarVendasPorCPF(User.Claims.Where(p =>p .Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value);
+            var Result = await _Service.BuscarVendasPorCPF(User.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value);
             return Ok(Result);
         }
 
