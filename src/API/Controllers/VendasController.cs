@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using Domain.DTO;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -38,7 +40,7 @@ namespace API.Controllers
         [Authorize(Roles = "cliente")]
         public async Task<IActionResult> GetCpf(string Cpf)
         {
-            var Result = await _Service.BuscarVendasPorCPF(Cpf);
+            var Result = await _Service.BuscarVendasPorCPF(User.Claims.Where(p =>p .Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value);
             return Ok(Result);
         }
 
@@ -46,6 +48,7 @@ namespace API.Controllers
         [Authorize(Roles = "cliente")]
         public async Task<IActionResult> Post(VendaDTO vendadto)
         {
+            vendadto.CPF = User.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
             return Ok(await _Service.AdicionarVenda(vendadto));
         }
 

@@ -1,6 +1,8 @@
 # Dúvidas
 # Tarefas
 fazer busca de vendas por cpf a partir do cpf do jwt
+compra de produtos somente pelo cpf do token 
+erro na adição de novos produtos (403 - forbiden)
 adicionar mensagens de retorno para erro dos testes unitários de todos os arquivos de teste
 Desenvolver sistema front para acesso ao projeto 
 Resolver o problema de retorno nulo para a lista de produtos de uma compra 
