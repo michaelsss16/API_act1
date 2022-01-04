@@ -21,6 +21,7 @@ using Infrastructure.Contexts;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 
 namespace API
 {
@@ -61,7 +62,7 @@ namespace API
             services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv11;User Id=usuario_actv11;Password=usuarioactv11123"));
 
             // Controladores 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(p => p.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             //  Serviços de aplicativo
             services.AddTransient<IClienteAppService, ClienteAppService>();

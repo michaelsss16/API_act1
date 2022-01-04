@@ -12,7 +12,7 @@ namespace Domain.DTO
         public Guid Id { get; set; }
             public int Quantidade { get; set; }
 
-        public Venda Venda{ get; set; }
+public Venda Venda{ get; set; }
         public Guid VendaId { set; get; }
         public Produto Produto { set; get; }
         public Guid  ProdutoId {   set; get;}

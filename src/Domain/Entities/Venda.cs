@@ -13,5 +13,7 @@ namespace Domain.Entities
         public string CPF { get; set; }
         public List<ProdutoVendaDTO> ListaProdutos { get; set; }
         public double Valor { set; get; }
+
+        //public ProdutoVendaDTO ProdutoVendaDTO { get; set; }
     }
 }

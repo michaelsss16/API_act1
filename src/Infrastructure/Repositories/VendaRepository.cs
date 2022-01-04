@@ -21,12 +21,19 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Venda>> Get()
         {
-            return await _context.Vendas.ToListAsync();
+            var lista = await _context.Vendas.ToListAsync();
+            foreach (var item in lista)
+            {
+                _context.Entry(item).Collection(p => p.ListaProdutos).Load();
+            }
+            return lista;
         }
 
         public async Task<Venda> Get(Guid id)
         {
-            return await _context.Vendas.FindAsync(id);
+            var venda = await _context.Vendas.FindAsync(id);
+            _context.Entry(venda).Collection(p => p.ListaProdutos).Load();
+            return venda;
         }
 
         public async Task<string> Add(Venda venda)
