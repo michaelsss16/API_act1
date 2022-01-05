@@ -29,8 +29,7 @@ namespace Domain.Services
 
         public async Task ValidarTodasAsRegras(Cliente cliente)
         {
-            cliente.CPF = cliente.CPF.Trim();
-            cliente.CPF = cliente.CPF.Replace(".", "").Replace("-", "");
+            cliente.CPF = Utils.Util.FormatarCPF(cliente.CPF); 
             if (!(ValidarCPF(cliente.CPF)))
             {
                 throw new InvalidOperationException("O CPF informado não é válido");
@@ -43,8 +42,7 @@ namespace Domain.Services
 
         public async Task<string> CadastrarCliente(Cliente cliente)
         {
-            cliente.CPF = cliente.CPF.Trim();
-            cliente.CPF = cliente.CPF.Replace(".", "").Replace("-", "");
+            cliente.CPF = Util.FormatarCPF(cliente.CPF);
             return await _Repository.AdicionarCliente(cliente);
         }
 
@@ -55,8 +53,7 @@ namespace Domain.Services
 
         public async Task<Cliente> BuscarClientePorCPF(string cpf)
         {
-            cpf = cpf.Trim();
-            cpf = cpf.Replace(".", "").Replace("-", "");
+            cpf = Util.FormatarCPF(cpf);
             var cliente = await _Repository.BuscaClientePorCPF(cpf);
             if (cliente == null) { throw new Exception("Não existe cliente cadastrado com o CPF informado"); }
             return cliente;

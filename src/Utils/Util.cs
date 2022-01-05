@@ -7,6 +7,12 @@ namespace Utils
 {
     public class Util
     {
+        public static string FormatarCPF(string cpf)
+        {
+            cpf = cpf.Trim();
+            cpf = cpf.Replace(".", "").Replace("-", "");
+            return cpf;
+        }
         public bool ValidarCPF(string cpf)
         {
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };

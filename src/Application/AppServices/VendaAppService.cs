@@ -7,6 +7,7 @@ using Application.Interfaces;
 using Domain.Entities;
 using Domain.DTO;
 using Domain.Interfaces.Services;
+using Application.Proxy;
 
 namespace Application.AppServices
 {
@@ -33,6 +34,7 @@ namespace Application.AppServices
             return await _ServiceVenda.BuscarVendaPorId(id);
         }
 
+        [RequerCPF]
         public async Task<IEnumerable<Venda>> BuscarVendasPorCPF(string cpf)
         {
             var Result = await _ServiceVenda.BuscarVendasPorCPF(cpf);
