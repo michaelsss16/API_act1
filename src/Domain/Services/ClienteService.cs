@@ -43,6 +43,7 @@ namespace Domain.Services
         public async Task<string> CadastrarCliente(Cliente cliente)
         {
             cliente.CPF = Util.FormatarCPF(cliente.CPF);
+            cliente.DataDeInsercao = DateTime.Now;
             return await _Repository.AdicionarCliente(cliente);
         }
 

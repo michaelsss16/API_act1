@@ -9,6 +9,7 @@ namespace Domain.Entities
 {
     public class Venda
     {
+        public DateTime DataDeInsercao { get; set; }
         public Guid Id { get; set; }
         public string CPF { get; set; }
         public List<ProdutoVendaDTO> ListaProdutos { get; set; }

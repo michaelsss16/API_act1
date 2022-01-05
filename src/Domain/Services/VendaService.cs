@@ -31,7 +31,7 @@ namespace Domain.Services
         public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor)
         {
             vendadto.CPF = Utils.Util.FormatarCPF(vendadto.CPF);
-            var venda = new Venda() { ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid(), Valor = valor };
+            var venda = new Venda() { ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid(), Valor = valor , DataDeInsercao = DateTime.Now};
             return await _Repository.Add(venda);
         }
 

@@ -13,5 +13,6 @@ namespace Domain.Entities
         public string Descricao { get; set; }
         public double Valor { set; get; }
         public int Quantidade { set; get; }
+        public DateTime DataDeInsercao { get; set; }
     }
 }
