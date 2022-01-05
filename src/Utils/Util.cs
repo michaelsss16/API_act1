@@ -9,8 +9,11 @@ namespace Utils
     {
         public static string FormatarCPF(string cpf)
         {
-            cpf = cpf.Trim();
-            cpf = cpf.Replace(".", "").Replace("-", "");
+            if (cpf!= null)
+            {
+                cpf = cpf.Trim();
+                cpf = cpf.Replace(".", "").Replace("-", "");
+            }
             return cpf;
         }
         public bool ValidarCPF(string cpf)

@@ -88,11 +88,7 @@ namespace Domain.Services
 
         public UsuarioDTO FormatarUsuarioDTO(UsuarioDTO usuariodto)
         {
-            if (usuariodto.CPF != null)
-            {
-                usuariodto.CPF = usuariodto.CPF.Trim();
-                usuariodto.CPF = usuariodto.CPF.Replace(".", "").Replace("-", "");
-            }
+            usuariodto.CPF = FormatarCPF(usuariodto.CPF);
             if (usuariodto.Tipo != null) { usuariodto.Tipo = usuariodto.Tipo.Trim(); }
             return usuariodto;
         }
