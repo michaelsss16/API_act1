@@ -20,6 +20,7 @@ namespace Infrastructure.Contexts
         public DbSet<Venda> Vendas{ get; set; }
         public DbSet<ProdutoVendaDTO> ProdutoVendaDTOs{ get; set; }
         public DbSet<Usuario> Usuarios{ get; set; }
+        public DbSet<Cupom> Cupons{ get; set; }
         
     }
 }

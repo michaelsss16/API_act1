@@ -25,21 +25,24 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
+        //Todo: Retornar a autenticação 
         public async Task<IActionResult> Get()
         {
             return Ok(await _Service.BuscarTodosOsClientes());
         }
 
         [HttpGet("{cpf}")]
-        [Authorize]
+        //[Authorize]
+        //retornar com a autenticação 
         public async Task<IActionResult> get(string cpf)
         {
             return Ok(await _Service.BuscarClientePorCPF(cpf));
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
+        // todo: Retornar com  aautenticação 
         public async Task<IActionResult> post(Cliente request)
         {
             var Resultado = await _Service.ValidarEAdicionarCliente(request);

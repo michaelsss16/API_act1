@@ -37,7 +37,8 @@ namespace API.Controllers
 
         [Route("cpf/{Cpf}")]
         [HttpGet]
-        [Authorize(Roles = "cliente")]
+        //[Authorize(Roles = "cliente")]
+        // todo:retornar autenticação 
         public async Task<IActionResult> GetCpf(string Cpf)
         {
             var Result = await _Service.BuscarVendasPorCPF(User.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value);
@@ -45,7 +46,8 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "cliente")]
+        //[Authorize(Roles = "cliente")]
+        // todo: retornar autenticação 
         public async Task<IActionResult> Post(VendaDTO vendadto)
         {
             vendadto.CPF = User.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;

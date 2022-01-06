@@ -61,6 +61,7 @@ namespace API
             // Banco de dados
             services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv11;User Id=usuario_actv11;Password=usuarioactv11123"));
 
+            // todo: Adicionar referências para as camadas do cupom 
             // Controladores 
             services.AddControllers().AddNewtonsoftJson(p => p.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 

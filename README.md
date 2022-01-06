@@ -1,3 +1,6 @@
+- Funcionalidades adicionais 
+Adicionado serviço para formatação do cpf para evitar repetição de código no projeto 
+Adição de propriedade referente a data de inserção das entidades cliente, produto e venda. (Presentes nos serviços de cada uma das entidades)
 # API_act
 Descrição da atividade ppara ser executada:
 Este exercício consiste em criar uma pequena API capaz de vender produtos a um cliente. 

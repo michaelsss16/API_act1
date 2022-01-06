@@ -20,14 +20,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize] 
+        // todo: Retornar a autenticação 
         public async Task<IActionResult> Get()
         {
             return Ok(await _service.BuscarrTodosOsUsuarios());
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        // Retornar a autenticação 
+        //[Authorize]
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _service.BuscarUsuarioPorId(id));
@@ -41,6 +43,7 @@ namespace API.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> Delete(Usuario usuario)
         {
             return Ok(await _service.RemoverUsuario(usuario));
