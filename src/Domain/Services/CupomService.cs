@@ -25,14 +25,22 @@ namespace Domain.Services
 
         public async Task<Cupom> BuscarCupomPorId(Guid guid)
         {
-            return await _repository.Get(guid);
-        }
+                return await _repository.Get(guid);
+            }
 
         public async Task<string> AdicionarCupom(Cupom cupom)
         {
+            cupom.Id = Guid.NewGuid();
+            ValidarCupom(cupom);
+
             return await _repository.Add(cupom);
         }
 
         // todo: adicionar serviço de validação para o cupom 
+        public void ValidarCupom(Cupom cupom)
+        {
+            if (String.IsNullOrEmpty(cupom.Nome)) { throw new Exception("Erro: O cupom deve possuir nome válido"); }
+            if ((cupom.Porcentagem <= 0.0) || (cupom.Porcentagem >= 100.0)) { throw new Exception("Erro: O cupom deve possuir porcentagem de desconto entre 0% e 100%"); }
+        }
     }
 }

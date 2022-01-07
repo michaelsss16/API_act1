@@ -28,10 +28,13 @@ namespace Domain.Services
             return await _Repository.Get(id);
         }
 
-        public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor)
+        public async Task<string> AdicionarVenda(VendaDTO vendadto, double valor, double porcentagem)
         {
             vendadto.CPF = Utils.Util.FormatarCPF(vendadto.CPF);
-            var venda = new Venda() { ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid(), Valor = valor , DataDeInsercao = DateTime.Now};
+            var venda = new Venda() { ListaProdutos = vendadto.ListaProdutos, CPF = vendadto.CPF, Id = Guid.NewGuid(), Valor = valor , DataDeInsercao = DateTime.Now, CupomId= vendadto.CupomId};
+            //todo: modificar para um método auxiliar
+            venda.PorcentagemDeDesconto = porcentagem;
+            venda.ValorComDesconto = venda.Valor * (1 - porcentagem / 100);
             return await _Repository.Add(venda);
         }
 

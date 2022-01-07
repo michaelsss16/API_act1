@@ -30,7 +30,12 @@ namespace Application.AppServices
 
         public async Task<string> AdicionarCupom(Cupom cupom)
         {
-            return await _service.AdicionarCupom(cupom);
+            try {
+                return await _service.AdicionarCupom(cupom);
+            } catch (Exception e) {
+                return e.Message;
+            }
+            
         }
 
         // todo: adicionar serviço de validação para o cupom 

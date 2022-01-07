@@ -16,12 +16,14 @@ namespace Application.AppServices
         private readonly IVendaService _ServiceVenda;
         private readonly IProdutoService _ServiceProduto;
         private readonly IClienteService _ServiceCliente;
+        private readonly ICupomService _ServiceCupom;
 
-        public VendaAppService(IVendaService servicev, IProdutoService servicep, IClienteService servicec)
+        public VendaAppService(IVendaService servicev, IProdutoService servicep, IClienteService servicec, ICupomService serviceCupom)
         {
             _ServiceVenda = servicev;
             _ServiceProduto = servicep;
             _ServiceCliente = servicec;
+            _ServiceCupom = serviceCupom;
         }
 
         public async Task<IEnumerable<Venda>> BuscarTodasAsVendas()
@@ -46,8 +48,9 @@ namespace Application.AppServices
             try { await ValidarVenda(vendadto); }
             catch (Exception E) { return E.Message; }
             await AtualizarQuantidadeDeProdutos(vendadto);
-            var valor = await CalcularValorDaVenda(vendadto);
-            return await _ServiceVenda.AdicionarVenda(vendadto, valor);
+            var valor = await CalcularValorDaVenda(vendadto); //todo: Calcular o desconto
+            var porcentagemDesconto = await BuscarPorcentagemDeDesconto(vendadto);
+            return await _ServiceVenda.AdicionarVenda(vendadto, valor, porcentagemDesconto);
         }
 
         public async Task<double> CalcularValorDaVenda(VendaDTO vendadto)
@@ -67,6 +70,16 @@ namespace Application.AppServices
         {
             var Result = await _ServiceProduto.AtualizarListaDeProdutos(vendadto.ListaProdutos);
             return Result;
+        }
+
+        //todo: adicionar o o métdoto na interface 
+        public async Task<double> BuscarPorcentagemDeDesconto(VendaDTO vendadto)
+        {
+            if (vendadto.CupomId == Guid.Empty) { return 0.0; }
+            else {
+                var cupom = await _ServiceCupom.BuscarCupomPorId(vendadto.CupomId);
+                return cupom.Porcentagem;
+            }
         }
     }
 }

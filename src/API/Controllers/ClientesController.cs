@@ -34,7 +34,7 @@ namespace API.Controllers
 
         [HttpGet("{cpf}")]
         //[Authorize]
-        //retornar com a autenticação 
+        //todo: retornar com a autenticação 
         public async Task<IActionResult> get(string cpf)
         {
             return Ok(await _Service.BuscarClientePorCPF(cpf));

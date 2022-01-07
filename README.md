@@ -1,6 +1,7 @@
 - Funcionalidades adicionais 
 Adicionado serviço para formatação do cpf para evitar repetição de código no projeto 
 Adição de propriedade referente a data de inserção das entidades cliente, produto e venda. (Presentes nos serviços de cada uma das entidades)
+Adição de endpoint para cupom de desconto  e aplicação durante venda de produtos
 # API_act
 Descrição da atividade ppara ser executada:
 Este exercício consiste em criar uma pequena API capaz de vender produtos a um cliente. 

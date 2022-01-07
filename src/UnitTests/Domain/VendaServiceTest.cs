@@ -61,7 +61,7 @@ namespace UnitTests.Domain
             var service = new VendaService(repository.Object);
 
             // Act
-            var resultado = await service.AdicionarVenda(vendadto, valor);
+            var resultado = await service.AdicionarVenda(vendadto, valor, 0);
 
             // Assert
             Assert.Equal("Venda adicionada com sucesso", resultado);

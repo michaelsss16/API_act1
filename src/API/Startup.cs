@@ -61,7 +61,6 @@ namespace API
             // Banco de dados
             services.AddDbContext<appContext>((option) => option.UseSqlServer("Server=localhost;Database=actv11;User Id=usuario_actv11;Password=usuarioactv11123"));
 
-            // todo: Adicionar referências para as camadas do cupom 
             // Controladores 
             services.AddControllers().AddNewtonsoftJson(p => p.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
@@ -70,18 +69,21 @@ namespace API
             services.AddTransient<IProdutoAppService, ProdutoAppService>();
             services.AddTransient<IVendaAppService, VendaAppService>();
             services.AddTransient<IUsuarioAppService, UsuarioAppService>();
+            services.AddTransient<ICupomAppService, CupomAppService>();
 
             // Serviços 
             services.AddTransient<IClienteService, ClienteService>();
             services.AddTransient<IProdutoService, ProdutoService>();
             services.AddTransient<IVendaService, VendaService>();
             services.AddTransient<IUsuarioService, UsuarioService>();
+            services.AddTransient<ICupomService, CupomService>();
 
             // Repositórios
             services.AddTransient<IClienteRepository, ClienteRepository>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IVendaRepository, VendaRepository>();
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
+            services.AddTransient<ICupomRepository, CupomRepository>();
 
             services.AddSwaggerGen(c =>
             {

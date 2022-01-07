@@ -23,8 +23,9 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
+            var servicecupom = new Mock<ICupomService>();
             servicev.Setup(p => p.BuscarTodasAsVendas()).ReturnsAsync(lista);
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object, servicecupom.Object);
 
             // Act
             var resultado = await appService.BuscarTodasAsVendas();
@@ -43,8 +44,9 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
+            var servicecupom= new Mock<ICupomService>();
             servicev.Setup(p => p.BuscarVendaPorId(id)).ReturnsAsync(venda);
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object, servicecupom.Object);
 
             // Act
             var resultado = await appService.BuscarVendaPorId(id);
@@ -62,9 +64,10 @@ namespace UnitTests.Application
             var lista = new List<Venda>() as IEnumerable<Venda>;
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
+            var servicecupom = new Mock<ICupomService>();
             var servicec = new Mock<IClienteService>();
             servicev.Setup(p => p.BuscarVendasPorCPF(cpf)).ReturnsAsync(lista);
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object, servicecupom.Object);
 
             // Act
             var resultado = await appService.BuscarTodasAsVendas();
@@ -81,8 +84,9 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
-            servicev.Setup(p => p.AdicionarVenda(vendadto, valor)).ReturnsAsync("Venda adicionada com sucesso");
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var servicecupom = new Mock<ICupomService>();
+            servicev.Setup(p => p.AdicionarVenda(vendadto, valor, 0.0)).ReturnsAsync("Venda adicionada com sucesso" );
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object,  servicecupom.Object);
 
             // Act
             var resultado = await appService.AdicionarVenda(vendadto);
@@ -101,9 +105,10 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
-            servicev.Setup(p => p.AdicionarVenda(vendadto, valor)).ReturnsAsync("Venda adicionada com sucesso");
+            var servicecupom = new Mock<ICupomService>();
+            servicev.Setup(p => p.AdicionarVenda(vendadto, valor, 0)).ReturnsAsync("Venda adicionada com sucesso");
             servicec.Setup(p => p.BuscarClientePorCPF("11111111111")).Throws(new Exception("Cliente não encontrado"));
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object,servicecupom.Object);
 
             // Act
             var resultado = await appService.AdicionarVenda(vendadto);
@@ -120,8 +125,9 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
+            var servicecupom = new Mock<ICupomService>();
             servicev.Setup(p => p.CalcularValorDaVenda(It.IsAny<VendaDTO>(), It.IsAny<List<Produto>>())).Returns(100);
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object, servicecupom.Object);
 
             // Act
             var resultado = await appService.CalcularValorDaVenda(vendadto);
@@ -139,8 +145,9 @@ namespace UnitTests.Application
             var servicev = new Mock<IVendaService>();
             var servicep = new Mock<IProdutoService>();
             var servicec = new Mock<IClienteService>();
+            var servicecupom = new Mock<ICupomService>();
             servicep.Setup(p => p.AtualizarListaDeProdutos(vendadto.ListaProdutos)).ReturnsAsync("Quantidades atualizadas com sucesso");
-            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object);
+            var appService = new VendaAppService(servicev.Object, servicep.Object, servicec.Object, servicecupom.Object);
 
             // Act
             var resultado = await appService.AtualizarQuantidadeDeProdutos(vendadto);

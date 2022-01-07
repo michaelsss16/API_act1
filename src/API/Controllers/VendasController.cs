@@ -22,14 +22,16 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
+        // todo: retornar com a autenticação 
         public async Task<IActionResult> Get()
         {
             return Ok(await _Service.BuscarTodasAsVendas());
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
+        // todo: retornar com a autenticação 
         public async Task<IActionResult> Get(Guid id)
         {
             return Ok(await _Service.BuscarVendaPorId(id));
@@ -50,7 +52,9 @@ namespace API.Controllers
         // todo: retornar autenticação 
         public async Task<IActionResult> Post(VendaDTO vendadto)
         {
+            // todo: Adicionar tratamento de exceção quando o jwt já está expirado 
             vendadto.CPF = User.Claims.Where(p => p.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value;
+            //todo: Fazer verificação entre o cpf informado pelo jwt e objeto 
             return Ok(await _Service.AdicionarVenda(vendadto));
         }
 

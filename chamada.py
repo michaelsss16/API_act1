@@ -1,5 +1,5 @@
 import requests;
-tokenCliente = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWwiLCJyb2xlIjoiY2xpZW50ZSIsIm5hbWVpZCI6IjEzNjAyMTUxNjYyIiwibmJmIjoxNjQxNDY5NjU5LCJleHAiOjE2NDE0NzY4NTksImlhdCI6MTY0MTQ2OTY1OX0.qOtdu0GifyAXUyjOwWFuWw_rznYK3NYtDSsJWFPnzyE"
+tokenCliente = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Im1pY2hhZWwiLCJyb2xlIjoiY2xpZW50ZSIsIm5hbWVpZCI6IjEzNjAyMTUxNjYyIiwibmJmIjoxNjQxNTc0MjExLCJleHAiOjE2NDE1ODE0MTEsImlhdCI6MTY0MTU3NDIxMX0.XQNKoepaMzHiTCigJnSBB4Jhx8rWWzPBvKa6kdJUs_w"
 tokenAdministrador = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImpvbmF0aGFuIiwicm9sZSI6ImFkbWluaXN0cmFkb3IiLCJuYW1laWQiOiIxMzYwMjE1MTY2MiIsIm5iZiI6MTY0MDg4MjkxMSwiZXhwIjoxNjQwODkwMTExLCJpYXQiOjE2NDA4ODI5MTF9.tL2ntHrkXO8VLuVEP7mbqj-l5sscsXqTyvPk8pgkvJE"
 headersCliente = {"Authorization": f"Bearer {tokenCliente}"}
 headersAdministrador = {"Authorization": f"Bearer {tokenAdministrador}"}
@@ -9,9 +9,10 @@ url2= "http://localhost:11338/API/Produtos"
 url3= "http://localhost:11338/API/Vendas"
 url4= "http://localhost:11338/API/Usuarios"
 url5 = "http://localhost:11338/API/Login"
+url6 = "http://localhost:11338/API/Cupom"
 
 print("Sistema de vendas\n")
-option = input("0 - Sair \n 1 - Cliente \n 2- Produto \n 3 - Venda \n 4 - Usuario \n 5 - Login\n")
+option = input("0 - Sair \n 1 - Cliente \n 2- Produto \n 3 - Venda \n 4 - Usuario \n 5 - Login\n 6 - Cupom \n")
 
 # Cliente
 if (option == '1'):
@@ -75,9 +76,16 @@ if (option == '3'):
 		id = input ('Id do produto: ')
 		quantidade = input ('Quantidade: ')
 		cpf = input ('CPF: ')
-		venda = {"ListaProdutos": [{"ProdutoId":id, "Quantidade": quantidade}], "CPF":cpf}
-		response = requests.post(url3, json = venda, headers = headersCliente)
-	print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
+		option3 = input("Deseja adicionar cupom?\n 0- Não\n 1- Sim\n")
+		if(option3=='1'):
+			cupomId = input ('Id do cupom: ')
+			venda = {"ListaProdutos": [{"ProdutoId":id, "Quantidade": quantidade}], "CPF":cpf, "CupomId": cupomId}
+			response = requests.post(url3, json = venda, headers = headersCliente)
+			print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
+		if(option3 == '0'):
+			venda = {"ListaProdutos": [{"ProdutoId":id, "Quantidade": quantidade}], "CPF":cpf}
+			response = requests.post(url3, json = venda, headers = headersCliente)
+			print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))							
 
 # Usuários
 if(option == '4'):
@@ -99,7 +107,23 @@ if(option == '4'):
 		usuario = {'Nome':nome, 'Email':email, 'CPF':cpf, 'Senha':senha, 'Tipo':tipo}
 		response = requests.post(url4, json = usuario)
 		print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
-	
+if (option == '6'):
+	option2 = input("1- Ver todos os cupons\n 2 - Buscar cupom por id \n 3 -  Adicionar cupom\n")
+	if (option2 == '1'):
+		response = requests.get(url6);
+		print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
+	if (option2 == '2'):
+		id = input("Id:")
+		response = requests.get(url6+'/'+id)
+		print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
+	if (option2 == '3'):
+		nome = input('Nome do cupom: ')
+		porcentagem= input('Porcentagem de desconto: ')
+		cupom = {"Nome":nome, "Porcentagem":porcentagem}
+		response = requests.post(url6, json = cupom)
+		print(str(response.status_code )+ ': '+ response.content.decode('utf-8'))					
+
+
 
 # Login
 if(option == '5'):
