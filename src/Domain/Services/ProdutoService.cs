@@ -41,7 +41,7 @@ namespace Domain.Services
 
         public async Task<string> AdicionarProduto(ProdutoDTO produtodto)
         {
-            Produto produto = new Produto() { Nome = produtodto.Nome, Valor = produtodto.Valor, Descricao = produtodto.Descricao, Quantidade = produtodto.Quantidade, Id = Guid.NewGuid(), DataDeInsercao=DateTime.Now };
+            Produto produto = new Produto() { Nome = produtodto.Nome, Valor = produtodto.Valor, Descricao = produtodto.Descricao, Quantidade = produtodto.Quantidade, Id = Guid.NewGuid()};
             return await _Repository.Add(produto);
         }
 

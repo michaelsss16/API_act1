@@ -25,8 +25,8 @@ namespace Domain.Services
 
         public async Task<Cupom> BuscarCupomPorId(Guid guid)
         {
-                return await _repository.Get(guid);
-            }
+            return await _repository.Get(guid);
+        }
 
         public async Task<string> AdicionarCupom(Cupom cupom)
         {

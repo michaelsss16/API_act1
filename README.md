@@ -1,4 +1,15 @@
-- Funcionalidades adicionais 
+#modificações requisitadas 
+Adicionar testes unitários para o serviço de cupom 
+alternar a inserção de data e horário para a camada de infraestrutura 
+modificar o tipo do usuário de string para enum
+Fazer implementação do cupom a partir de valor fixo  
+conseguir fazer alternância entre os tipos de cupons 
+
+# Modificações para serem desenvolvidas a partir de estudos feitos por fora das requisições do projeto 
+Adicionar endpoint para informações sobre a situação do banco de dados 
+
+Adicionar endpoint com informações sobre quais as camadas e seus autores a partir de attribute e reflexion 
+# Funcionalidades adicionais 
 Adicionado serviço para formatação do cpf para evitar repetição de código no projeto 
 Adição de propriedade referente a data de inserção das entidades cliente, produto e venda. (Presentes nos serviços de cada uma das entidades)
 Adição de endpoint para cupom de desconto  e aplicação durante venda de produtos

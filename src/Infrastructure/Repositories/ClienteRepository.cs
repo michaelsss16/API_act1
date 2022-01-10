@@ -40,6 +40,7 @@ namespace Infrastructure.Repositories
 
         public async Task<string> AdicionarCliente(Cliente cliente)
         {
+            cliente.DataDeInsercao = DateTime.Now;
             _context.Clientes.Add(cliente);
             await _context.SaveChangesAsync();
             return "Cliente adicionado com sucesso!";

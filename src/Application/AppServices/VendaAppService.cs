@@ -45,11 +45,15 @@ namespace Application.AppServices
 
         public async Task<string> AdicionarVenda(VendaDTO vendadto)
         {
-            try { await ValidarVenda(vendadto); }
+            double valor = 0;
+            double porcentagemDesconto = 0;
+            try { await ValidarVenda(vendadto);
+                valor = await CalcularValorDaVenda(vendadto);
+                porcentagemDesconto = await BuscarPorcentagemDeDesconto(vendadto); //todo: Adicionar try catch para problema de cupomId
+
+            }
             catch (Exception E) { return E.Message; }
             await AtualizarQuantidadeDeProdutos(vendadto);
-            var valor = await CalcularValorDaVenda(vendadto); //todo: Calcular o desconto
-            var porcentagemDesconto = await BuscarPorcentagemDeDesconto(vendadto);
             return await _ServiceVenda.AdicionarVenda(vendadto, valor, porcentagemDesconto);
         }
 
@@ -77,8 +81,9 @@ namespace Application.AppServices
         {
             if (vendadto.CupomId == Guid.Empty) { return 0.0; }
             else {
-                var cupom = await _ServiceCupom.BuscarCupomPorId(vendadto.CupomId);
-                return cupom.Porcentagem;
+                //todo: L
+                    var cupom = await _ServiceCupom.BuscarCupomPorId(vendadto.CupomId);
+                    return cupom.Porcentagem;
             }
         }
     }

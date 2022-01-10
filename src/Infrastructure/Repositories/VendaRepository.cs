@@ -38,6 +38,7 @@ namespace Infrastructure.Repositories
 
         public async Task<string> Add(Venda venda)
         {
+            venda.DataDeInsercao = DateTime.Now;
             _context.Vendas.Add(venda);
             await _context.SaveChangesAsync();
             return "Venda adicionada com sucesso!";

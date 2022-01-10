@@ -25,7 +25,9 @@ namespace Infrastructure.Repositories
         }
         public async Task<Cupom> Get(Guid guid)
         {
-            return await _context.Cupons.FindAsync(guid);
+            Cupom cupom= await _context.Cupons.FindAsync(guid);
+            if (cupom == null) { throw new Exception("O id do cupom não é válido"); }
+            return cupom;
         }
 
         public async Task<string> Add(Cupom cupom)

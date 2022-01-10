@@ -33,6 +33,7 @@ namespace Infrastructure.Repositories
 
         public async Task<string> Add(Produto produto)
         {
+            produto.DataDeInsercao = DateTime.Now;
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
             return "Produto adicionado com sucesso!";
